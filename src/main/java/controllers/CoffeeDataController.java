@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CoffeeDataController {
     @GetMapping("/")
     public String index(){
-        return "index";
+        return "redirect:/index";
     }
-
-
 }
