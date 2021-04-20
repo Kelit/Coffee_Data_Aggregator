@@ -25,6 +25,8 @@ public class CoffeeDataController {
 
     @GetMapping("/orders")
     public String getOrders(){
-        return "orders";
+        return "productOrders";
     }
+
+
 }

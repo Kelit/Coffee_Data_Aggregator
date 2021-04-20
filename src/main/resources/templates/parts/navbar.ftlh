@@ -8,7 +8,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto" >
-                <a href="#"><button type="button" class="btn btn-info">Заказы</button></a>
+                <a href="/orders"><button type="button" class="btn btn-info">Заказы</button></a>
         </ul>
         <ul class="navbar-nav mr-auto" >
                 <a href="/products"><button type="button" class="btn btn-info">Товары</button></a>
@@ -17,7 +17,7 @@
                 <a href="#"><button type="button" class="btn btn-info">Статистика</button></a>
         </ul>
         <ul class="navbar-nav mr-auto" >
-                <a href="#"><button type="button" class="btn btn-info">Пользователи</button></a>
+                <a href="/userlist"><button type="button" class="btn btn-info">Пользователи</button></a>
         </ul>
         <ul class="d-flex justify-content-end navbar-nav">
             <li class="nav-item">
