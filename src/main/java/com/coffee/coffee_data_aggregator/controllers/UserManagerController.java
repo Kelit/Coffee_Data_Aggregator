@@ -5,19 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Controller
-@RequestMapping("/userlist")
 public class UserManagerController {
 
-    @GetMapping
-    public String userList() {
-//        model.addAttribute("users", );
-        return "userList";
+    @GetMapping("/userlist")
+    public String userList(){
+        log.info("GET USERLIST");
+        return "userlist";
     }
 
 //    @GetMapping("{user}")

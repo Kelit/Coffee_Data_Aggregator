@@ -15,19 +15,17 @@ public class CoffeeDataController {
 
     @RequestMapping("/index")
     public String index(){
+        log.info("GET INDEX");
         return "index";
     }
 
     @GetMapping("/products")
     public String getProducts(){
-        return "products";
+        log.info("GET PRODUCT"); return "products";
     }
 
     @GetMapping("/orders")
     public String getOrders(){
-        return "productOrders";
+        log.info("GET ORDERS");return "productOrders";
     }
-
-
-
 }
