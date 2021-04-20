@@ -11,7 +11,7 @@
                 <a href="/orders"><button type="button" class="btn btn-info">Заказы</button></a>
         </ul>
         <ul class="navbar-nav mr-auto" >
-                <a href="/products"><button type="button" class="btn btn-info">Товары</button></a>
+                <a href="/products"><button type="button" class="btn btn-info" id="refreshesData" >Товары</button></a>
         </ul>
         <ul class="navbar-nav mr-auto" >
                 <a href="#"><button type="button" class="btn btn-info">Статистика</button></a>

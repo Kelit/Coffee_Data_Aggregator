@@ -21,11 +21,13 @@ public class CoffeeDataController {
 
     @GetMapping("/products")
     public String getProducts(){
-        log.info("GET PRODUCT"); return "products";
+        log.info("GET PRODUCT");
+        return "products";
     }
 
     @GetMapping("/orders")
     public String getOrders(){
-        log.info("GET ORDERS");return "productOrders";
+        log.info("GET ORDERS");
+        return "productOrders";
     }
 }
