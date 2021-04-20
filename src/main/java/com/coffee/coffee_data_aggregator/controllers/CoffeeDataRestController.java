@@ -1,6 +1,8 @@
-package controllers;
+package com.coffee.coffee_data_aggregator.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.LifecycleState;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,7 @@ public class CoffeeDataRestController {
     @RequestMapping(value = "/del-coffee", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getCoffee(){
+    public String delCoffee(){
 
         return "Item has delete";
     }
