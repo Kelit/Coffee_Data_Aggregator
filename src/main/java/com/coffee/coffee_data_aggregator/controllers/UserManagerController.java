@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class UserManagerController {
 
     @GetMapping
-    public String userList(Model model) {
+    public String userList() {
 //        model.addAttribute("users", );
         return "userList";
     }
