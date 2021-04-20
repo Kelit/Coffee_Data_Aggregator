@@ -1,4 +1,4 @@
-<#import "common.ftlh" as c>
+<#import "parts/common.ftlh" as c>
 <@c.page>
-    <h1>COFFEE</h1>
+
 </@c.page>
