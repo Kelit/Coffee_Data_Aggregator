@@ -45,4 +45,8 @@ public class ProductInOrder {
         this.productStock = productInfo.getProductStock();
         this.count = quantity;
     }
+
+    public ProductInOrder() {
+
+    }
 }

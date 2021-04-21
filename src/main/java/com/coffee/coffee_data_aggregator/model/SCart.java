@@ -18,7 +18,6 @@ public class SCart  implements Serializable {
     @Id
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL,
@@ -26,5 +25,9 @@ public class SCart  implements Serializable {
                 orphanRemoval = true,
                 mappedBy = "cart")
     private Set<ProductInOrder> products = new HashSet<>();
+
+    public SCart(User user) {
+        this.user  = user;
+    }
 }
 
