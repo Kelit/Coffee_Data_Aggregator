@@ -1,5 +1,5 @@
-$('#refreshesData').click(
-    function (){
+$(document).ready(function () {
+    if(window.location.pathname === "/products"){
         $.ajax(
             {
                 type: 'GET',
@@ -13,4 +13,4 @@ $('#refreshesData').click(
                     console.log("Ошибка")
                 }})
     }
-);
+});

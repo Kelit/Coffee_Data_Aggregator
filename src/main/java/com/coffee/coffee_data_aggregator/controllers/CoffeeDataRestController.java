@@ -15,6 +15,8 @@ import java.util.List;
 @RequestMapping("/coffee/api")
 public class CoffeeDataRestController {
 
+    // Page products
+
     //Получение списка товаров
     @RequestMapping(value = "/get-coffee", method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,7 +26,6 @@ public class CoffeeDataRestController {
         coffee.add("MY");
         return coffee;
     }
-
     //Удаление товаров
     @RequestMapping(value = "/del-coffee", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,5 +33,24 @@ public class CoffeeDataRestController {
     public String delCoffee(){
 
         return "Item has delete";
+    }
+
+    // Page prodductOrder
+    //Получение списка товаров
+    @RequestMapping(value = "/get-orders", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<String> getOrders(){
+        List<String> coffee = new ArrayList<>();
+        coffee.add("My Order");
+        return coffee;
+    }
+    //Удаление товаров
+    @RequestMapping(value = "/del-order", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String delOrder(){
+
+        return "Order has delete";
     }
 }
