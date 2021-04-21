@@ -6,7 +6,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <button class="btn btn-outline-secondary btn-sm mr-3"
-                                id="refreshesData"
+<#--                                id="refreshesData"-->
                                 type="button">Обновить</button>
                     </li>
                 </ul>
