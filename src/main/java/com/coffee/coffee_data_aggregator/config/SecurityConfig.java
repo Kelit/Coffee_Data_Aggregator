@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("admin").
                 password(getPasswordEncoder().
-                        encode("112233")).
+                        encode("1122")).
                 roles("ADMIN");
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
