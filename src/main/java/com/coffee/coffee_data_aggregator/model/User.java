@@ -31,9 +31,7 @@ public class User implements UserDetails, Serializable {
     private String email;
 
      //T_Role
-     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-     @Enumerated(EnumType.STRING)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     // T_SCart

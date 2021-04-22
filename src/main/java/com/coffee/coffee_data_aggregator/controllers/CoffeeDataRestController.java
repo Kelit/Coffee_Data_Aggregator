@@ -1,12 +1,12 @@
 package com.coffee.coffee_data_aggregator.controllers;
 
+import com.coffee.coffee_data_aggregator.model.User;
+import com.coffee.coffee_data_aggregator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.LifecycleState;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import java.util.List;
 @RequestMapping("/coffee/api")
 public class CoffeeDataRestController {
 
+    @Autowired
+    UserService userService;
     // Page products
 
     //Получение списка товаров
@@ -52,5 +54,15 @@ public class CoffeeDataRestController {
     public String delOrder(){
 
         return "Order has delete";
+    }
+
+    @RequestMapping(value = "/create-user",
+            method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
+    @ResponseBody
+    public String createUser(@RequestBody User user) {
+        log.info("Получили данны: " + user.getUsername());
+        userService.addUser(user);
+        return "Создан пользователь:" + user.getUsername() + " " + user.getPassword();
     }
 }

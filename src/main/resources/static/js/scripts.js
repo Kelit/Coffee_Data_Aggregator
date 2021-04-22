@@ -14,3 +14,27 @@ $(document).ready(function () {
                 }})
     }
 });
+$('#createUserBtn').click(function(){
+    let newUser = $('#newUserName').val();
+    let newUserPassword = $('#newUserNamePassword').val();
+    let checkState = $("#newUserNameActive").is(":checked") ? "true" : "false";
+    if(newUser == "" || newUserPassword == "")
+        alert("Пожалуйста внимательно заполните поля пользователя");
+    else {
+        $.ajax({
+            type: 'POST',
+            url:  'coffee/api/create-user',
+            data: JSON.stringify({username: newUser, password: newUserPassword, active: checkState}),
+            contentType: 'application/json',
+            success: function (data) {
+                document.getElementById("newUserName").value = "";
+                document.getElementById("newUserNamePassword").value = "";
+                document.location.reload();
+                console.log('пользователь создан: ' + data);
+            },
+            error: function (data) {
+                console.log('Не удалось создать пользователя: ' + data);
+            }
+        });
+    }
+});
