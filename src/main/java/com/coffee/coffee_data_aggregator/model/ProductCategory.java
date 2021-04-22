@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,3 +34,4 @@ public class ProductCategory implements Serializable {
         this.categoryType = categoryType;
     }
 }
+*/

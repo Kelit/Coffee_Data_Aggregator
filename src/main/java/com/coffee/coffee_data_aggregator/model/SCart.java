@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,4 +30,4 @@ public class SCart  implements Serializable {
         this.user  = user;
     }
 }
-
+*/

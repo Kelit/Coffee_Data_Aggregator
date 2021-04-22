@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,3 +37,4 @@ public class ProductInfo implements Serializable {
     @UpdateTimestamp
     private Date updateTime;
 }
+*/

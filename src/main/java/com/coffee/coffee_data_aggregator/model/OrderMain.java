@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -56,3 +56,4 @@ public class OrderMain  implements Serializable {
 
     }
 }
+*/

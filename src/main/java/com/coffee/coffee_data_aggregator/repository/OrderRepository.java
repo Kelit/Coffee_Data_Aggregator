@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.repository;
-
+/*
 import com.coffee.coffee_data_aggregator.model.OrderMain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,3 +13,4 @@ public interface OrderRepository extends JpaRepository<OrderMain, Long> {
     Page<OrderMain> findAllByOrderByOrderStatusAscCreateTimeDesc(Pageable pageable);
     Page<OrderMain> findAllByBuyerPhoneOrderByOrderStatusAscCreateTimeDesc(String buyerPhone, Pageable pageable);
 }
+*/

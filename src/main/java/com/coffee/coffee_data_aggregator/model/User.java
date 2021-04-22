@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,11 +19,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements Serializable {
-//public class User implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean active;
     private String username;
@@ -29,32 +30,33 @@ public class User implements Serializable {
     private String phone;
     private String email;
 
-    // T_Role
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-//    private Set<Role> roles;
+     //T_Role
+     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+     @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     // T_SCart
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private SCart sCart;
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+//    private SCart sCart;
 
 
     public  boolean isActive(){ return active;}
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-//    @Override
-//    public String getPassword() { return password;}
-//    @Override
-//    public String getUsername() { return username;}
-//    @Override
-//    public boolean isAccountNonExpired() { return isActive(); }
-//    @Override
-//    public boolean isAccountNonLocked() { return  isActive(); }
-//    @Override
-//    public boolean isCredentialsNonExpired() { return isActive(); }
-//    @Override
-//    public boolean isEnabled() { return isActive(); }
-
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+    @Override
+    public String getPassword() { return password;}
+    @Override
+    public String getUsername() { return username;}
+    @Override
+    public boolean isAccountNonExpired() { return isActive(); }
+    @Override
+    public boolean isAccountNonLocked() { return  isActive(); }
+    @Override
+    public boolean isCredentialsNonExpired() { return isActive(); }
+    @Override
+    public boolean isEnabled() { return isActive(); }
 }
