@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,15 +28,14 @@ public class UserService implements UserDetailsService {
     private RoleRepository roleRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     // Search
     public List<User> findAllUsers(){ return userRepository.findAll();}
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("Пользователь не найден");
-        }
+        if(user == null){ throw new UsernameNotFoundException("Пользователь не найден");}
         return user;
     }
 
@@ -49,9 +47,9 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void deletUser(Long id){
         if(id == null || id == 0) return;
-        User user = userRepository.findById(id).get();
 
-        System.out.println("ПОЛЬЗОВАТЕЛЬ ПОД НИКОМ " + user.getUsername() + " Удален");
+        User user = userRepository.findById(id).get();
+        System.out.println(user.getUsername() + " удален");
         userRepository.delete(user);
     }
     // Add
@@ -61,9 +59,14 @@ public class UserService implements UserDetailsService {
         if(userFromDb != null) return false;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
-//        User newUser = userRepository.save(user);
+
+        //!! Индуйский стиль
+        user.setRoles(getRoles(user,getRoleList(user)));
+
+        //        User newUser = userRepository.save(user);
 //        SCart saveCart = cartRepository.save(new SCart(newUser));
 //        newUser.setSCart(saveCart);
+
         userRepository.save(user);
         System.out.println("Пользователь сохранен - " + user.getId() + ":" + user.getUsername());
         return true;

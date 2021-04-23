@@ -1,6 +1,8 @@
 package com.coffee.coffee_data_aggregator.controllers;
 
+import com.coffee.coffee_data_aggregator.model.ProductInfo;
 import com.coffee.coffee_data_aggregator.model.User;
+import com.coffee.coffee_data_aggregator.service.ProductService;
 import com.coffee.coffee_data_aggregator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.LifecycleState;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 @Slf4j
@@ -16,16 +19,26 @@ import java.util.List;
 public class CoffeeDataRestController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private ProductService productService;
     // Page products
 
     //Получение списка товаров
     @RequestMapping(value = "/get-coffee", method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<String> getCoffee(){
-        List<String> coffee = new ArrayList<>();
-        coffee.add("MY");
+//    @ResponseBody
+    public List<ProductInfo> getCoffee(){
+        ProductInfo pi = new ProductInfo();
+        pi.setProductPrice(BigDecimal.valueOf(01));
+        pi.setProductName(String.valueOf(1));
+        pi.setProductDescription(String.valueOf(123));
+        pi.setProductStock(1);
+        pi.setProductIcon("https://bezkoder.com/wp-content/uploads/2020/05/spring-boot-pagination-filter-example-spring-jpa-pageable-table.png");
+
+        productService.addProduct(pi);
+        List<ProductInfo> coffee = productService.findAllProduct();
+
         return coffee;
     }
     //Удаление товаров
@@ -44,7 +57,7 @@ public class CoffeeDataRestController {
     @ResponseBody
     public List<String> getOrders(){
         List<String> coffee = new ArrayList<>();
-        coffee.add("My Order");
+        coffee.add("MY");
         return coffee;
     }
     //Удаление товаров
@@ -56,6 +69,7 @@ public class CoffeeDataRestController {
         return "Order has delete";
     }
 
+
     @RequestMapping(value = "/create-user",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -63,6 +77,6 @@ public class CoffeeDataRestController {
     public String createUser(@RequestBody User user) {
         log.info("Получили данны: " + user.getUsername());
         userService.addUser(user);
-        return "Создан пользователь:" + user.getUsername() + " " + user.getPassword();
+        return "Создан пользователь:" + user.getUsername();
     }
 }

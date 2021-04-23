@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-/*
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +20,9 @@ import java.util.Date;
 //@DynamicUpdate??
 public class ProductInfo implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String productId;
+
     private String productName;
     private BigDecimal productPrice;
     private Integer productStock;
@@ -37,4 +39,3 @@ public class ProductInfo implements Serializable {
     @UpdateTimestamp
     private Date updateTime;
 }
-*/

@@ -21,8 +21,9 @@ public class UserManagerController {
     private UserService userService;
 
     @GetMapping()
-    public String userList(){
+    public String userList(Model model){
         log.info("GET USERLIST");
+        model.addAttribute("users", userService.findAllUsers());
         return "userlist";
     }
 
