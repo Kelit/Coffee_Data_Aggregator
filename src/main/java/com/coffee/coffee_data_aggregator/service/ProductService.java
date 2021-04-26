@@ -1,7 +1,7 @@
 package com.coffee.coffee_data_aggregator.service;
 
 import com.coffee.coffee_data_aggregator.model.ProductInfo;
-import com.coffee.coffee_data_aggregator.repository.ProductInfoRepository;
+import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private ProductInfoRepository productInfoRepository;
+    private ProductRepository productRepository;
 
-    public List<ProductInfo> findAllProduct(){ return  productInfoRepository.findAll();}
+    public List<ProductInfo> findAllProduct(){ return  productRepository.findAll();}
 
     //delete product
 
@@ -27,7 +27,7 @@ public class ProductService {
         pi.setProductDescription(pi.getProductDescription());
         pi.setProductIcon(pi.getProductIcon());
 
-        productInfoRepository.save(pi);
+        productRepository.save(pi);
         System.out.println("продукт сохранен сохранен - " + pi.getProductId() + ":" + pi.getProductName());
         return true;
     }

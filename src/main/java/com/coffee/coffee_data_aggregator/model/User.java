@@ -34,7 +34,8 @@ public class User implements UserDetails, Serializable {
     // T_SCart
 //    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
 //    private SCart sCart;
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private SCart sCart;
 
     public  boolean isActive(){ return active;}
 
