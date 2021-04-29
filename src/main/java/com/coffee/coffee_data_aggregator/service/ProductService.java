@@ -13,7 +13,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<ProductInfo> findAllProduct(){ return  productRepository.findAll();}
+//    public List<ProductInfo> findAllProduct(){ return  productRepository.findAll();}
 
     //delete product
 
@@ -27,7 +27,7 @@ public class ProductService {
         pi.setProductDescription(pi.getProductDescription());
         pi.setProductIcon(pi.getProductIcon());
 
-        productRepository.save(pi);
+//        productRepository.save(pi);
         System.out.println("продукт сохранен сохранен - " + pi.getProductId() + ":" + pi.getProductName());
         return true;
     }

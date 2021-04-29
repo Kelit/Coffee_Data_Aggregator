@@ -28,7 +28,7 @@ public class CoffeeDataRestController {
     @RequestMapping(value = "/get-coffee", method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseBody
-    public List<ProductInfo> getCoffee(){
+    public List<String> getCoffee(){
         ProductInfo pi = new ProductInfo();
         pi.setProductPrice(BigDecimal.valueOf(01));
         pi.setProductName(String.valueOf(1));
@@ -37,9 +37,13 @@ public class CoffeeDataRestController {
         pi.setProductIcon("https://bezkoder.com/wp-content/uploads/2020/05/spring-boot-pagination-filter-example-spring-jpa-pageable-table.png");
 
         productService.addProduct(pi);
-        List<ProductInfo> coffee = productService.findAllProduct();
+//        List<ProductInfo> coffee = productService.findAllProduct();
 
+        List<String> coffee = new ArrayList<>();
+        coffee.add("MY");
         return coffee;
+
+//        return coffee;
     }
     //Удаление товаров
     @RequestMapping(value = "/del-coffee", method = RequestMethod.DELETE,

@@ -41,14 +41,15 @@ public class ScartService {
 
     @Transactional
     public boolean addToCart(String userEmail, long productId, int quantity) {
-        SCart cart = getCartOrCreate(userEmail);
-        Product product = productRepository.getProduct(productId);
-        if (product.isAvailable()) {
-            cart.update(product, quantity);
-            sCartRepository.save(cart);
-            return true;
-        } else {
-            return cart;
-        }
+//        SCart cart = getCartOrCreate(userEmail);
+//        Product product = productRepository.getProduct(productId);
+//        if (product.isAvailable()) {
+//            cart.update(product, quantity);
+//            sCartRepository.save(cart);
+//            return true;
+//        } else {
+//            return cart;
+//        }
+        return true;
     }
 }
