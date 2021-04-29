@@ -74,4 +74,8 @@ public class SCart  implements Serializable {
         cartItems.clear();
     }
 
+    public boolean isEmpty() {
+        if(this.user == null) return  true;
+        return false;
+    }
 }

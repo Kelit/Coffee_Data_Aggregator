@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -25,31 +26,51 @@ public class ScartService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public boolean getCartOrCreate(String username) {
-        User account = userRepository.findByUsername(username); // todo: check if this user exists
+//    @Transactional(propagation = Propagation.SUPPORTS)
+    public SCart getCartOrCreate(String username) {
+        User account = userRepository.findByUsername(username);
         Optional<SCart> cartOptional = sCartRepository.findById(account.getId());
-        cartOptional.orElseGet(() -> createCart(account));
-        return true;
+        return cartOptional.orElseGet(() -> createCart(account));
+//        return true;
     }
 
     private SCart createCart(User account) {
-        if (log.isDebugEnabled())
-            log.debug("Creating new cart for account #" + account.getId());
+        log.debug("Creating new cart for account #" + account.getId());
         return sCartRepository.save(new SCart(account));
+    }
+    @Transactional
+    public boolean addToCart(String user, long productId, int quantity) {
+        SCart cart = getCartOrCreate(user);
+        Product product = productRepository.getProduct(productId);
+        if (product.isAvailable()) {
+            cart.update(product, quantity);
+            sCartRepository.save(cart);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Transactional
-    public boolean addToCart(String userEmail, long productId, int quantity) {
-//        SCart cart = getCartOrCreate(userEmail);
-//        Product product = productRepository.getProduct(productId);
-//        if (product.isAvailable()) {
-//            cart.update(product, quantity);
-//            sCartRepository.save(cart);
-//            return true;
-//        } else {
-//            return cart;
-//        }
+    public Boolean addAllToCart(String userEmail, List<CartItem> itemsToAdd) {
+        SCart cart = getCartOrCreate(userEmail);
+        boolean updated = false;
+        for (CartItem item : itemsToAdd) {
+            Optional<Product> product = productRepository.findById(item.getProduct().getId());
+            if (product.isPresent() && product.get().isAvailable()) {
+                cart.update(product.get(), item.getQuantity());
+                updated = true;
+            }
+        }
+        if (updated) {sCartRepository.save(cart);}
+        return true;
+    }
+
+    @Transactional
+    public boolean clearCart(String userEmail) {
+        SCart cart = getCartOrCreate(userEmail);
+        cart.clear();
+        sCartRepository.save(cart);
         return true;
     }
 }
