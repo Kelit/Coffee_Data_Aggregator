@@ -44,12 +44,45 @@ public class Order  implements Serializable {
     @Temporal(TIMESTAMP)
     private Date dateCreated;
 
-    @Column(name = "delivery_cost")
-    private int deliveryCost;
-
-    @Column(name = "delivery_included", nullable = false)
-    private boolean deliveryIncluded;
-
     @Column(name = "executed", nullable = false)
     private boolean executed;
+
+    @Getter
+    @Setter
+    public static class Builder {
+        private Long id;
+        private User userAccount;
+        private Set<OrderedProduct> orderedProducts = new HashSet<>();
+        private Bill bill;
+        private double productsCost;
+        private Date dateCreated;
+        private int deliveryCost;
+        private boolean deliveryIncluded;
+        private boolean executed;
+
+        public Order build() {
+            Order order = new Order();
+            order.id = id;
+            order.userAccount = userAccount;
+            order.orderedProducts = orderedProducts;
+            order.bill = bill;
+            order.productsCost = productsCost;
+            order.dateCreated = dateCreated;
+            order.deliveryCost = deliveryCost;
+            order.deliveryIncluded = deliveryIncluded;
+            order.executed = executed;
+            return order;
+        }
+
+        public Builder setProductsCostt(double productsCost) {
+            this.productsCost = productsCost;
+            return this;
+        }
+
+        public Builder setOrderedProducts(Set<OrderedProduct> orderedProducts) {
+            this.orderedProducts = orderedProducts;
+            return this;
+        }
+
+    }
 }

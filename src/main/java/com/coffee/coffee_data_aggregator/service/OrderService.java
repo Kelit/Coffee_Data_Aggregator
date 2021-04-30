@@ -1,9 +1,6 @@
 package com.coffee.coffee_data_aggregator.service;
 
-import com.coffee.coffee_data_aggregator.model.Bill;
-import com.coffee.coffee_data_aggregator.model.Order;
-import com.coffee.coffee_data_aggregator.model.SCart;
-import com.coffee.coffee_data_aggregator.model.User;
+import com.coffee.coffee_data_aggregator.model.*;
 import com.coffee.coffee_data_aggregator.repository.OrderRepository;
 import com.coffee.coffee_data_aggregator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static java.util.stream.Collectors.toSet;
 
 public class OrderService {
     @Autowired
@@ -63,31 +61,31 @@ public class OrderService {
         if (cart.isEmpty())
 //            throw new EmptyCartException();
 
-        Order order = createNewOrder(userLogin, cart, deliveryCost);
+        Order order = createNewOrder(userLogin, cart);
         Bill bill = createBill(order, cardNumber);
         order.setBill(bill);
-        orderDAO.saveAndFlush(order);
+        orderRepository.saveAndFlush(order);
 
         fillOrderItems(cart, order);
-        orderDAO.save(order);
-        cartService.clearCart(userLogin);
+        orderRepository.save(order);
+        scartService.clearCart(userLogin);
 
         return order;
     }
 
 
     public void updateStatus(long orderId, boolean executed) {
-        Order order = orderDAO.findById(orderId).orElse(null);
+        Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null) {
             order.setExecuted(executed);
-            orderDAO.save(order);
+            orderRepository.save(order);
         }
     }
 
-    private Order createNewOrder(String userLogin, SCart cart, int deliveryCost) {
+    private Order createNewOrder(String userLogin, SCart cart) {
         return new Order.Builder()
-                .setUserAccount(userAccountService.findByEmail(userLogin))
-                .setProductsCost(cart.getItemsCost())
+                .setUserAccount(userRepository.findByUsername(userLogin))
+                .setProductsCostt(cart.getItemsCost())
                 .setDateCreated(new Date())
                 .setExecuted(false)
                 .build();
@@ -104,7 +102,7 @@ public class OrderService {
                 .build();
     }
 
-    private void fillOrderItems(Cart cart, Order order) {
+    private void fillOrderItems(SCart cart, Order order) {
         Set<OrderedProduct> ordered = cart.getCartItems().stream()
                 .map(item -> createOrderedProduct(order, item))
                 .collect(toSet());

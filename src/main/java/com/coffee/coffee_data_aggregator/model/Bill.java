@@ -15,7 +15,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Table(name = "bill")
 @Getter
 @Setter
-public class Bill  implements Serializable {
+public  class Bill  implements Serializable {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -43,4 +43,30 @@ public class Bill  implements Serializable {
     @Column(name = "date_created", nullable = false)
     @Temporal(TIMESTAMP)
     private Date dateCreated;
+
+
+    @Getter
+    @Setter
+    public static class Builder {
+        private Long id;
+        private Order order;
+        private int number;
+        private double totalCost;
+        private boolean payed = false;
+        private String ccNumber;
+        private Date dateCreated;
+
+        public Bill build() {
+            Bill bill = new Bill();
+            bill.id = id;
+            bill.order = order;
+            bill.number = number;
+            bill.totalCost = totalCost;
+            bill.payed = payed;
+            bill.ccNumber = ccNumber;
+            bill.dateCreated = dateCreated;
+            return bill;
+        }
+
+    }
 }

@@ -78,4 +78,53 @@ public class SCart  implements Serializable {
         if(this.user == null) return  true;
         return false;
     }
+    public int getItemsCount() {
+        return cartItems.size();
+    }
+
+    public double getItemsCost() {
+        return calculateItemsCost();
+    }
+
+    public static class Builder {
+        private long id;
+        private User userAccount;
+        private List<CartItem> cartItems = new ArrayList<>(0);
+        private boolean deliveryIncluded = true;
+
+        public Builder() {
+        }
+
+        public Builder(SCart cart) {
+            id = cart.id;
+            userAccount = cart.user;
+            cartItems = cart.cartItems;
+//            deliveryIncluded = cart.deliveryIncluded;
+        }
+
+        public SCart build() {
+            SCart cart = new SCart();
+            cart.id = id;
+            cart.user = userAccount;
+            cart.cartItems = cartItems;
+//            cart.deliveryIncluded = deliveryIncluded;
+            return cart;
+        }
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setUserAccount(User userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder setDeliveryIncluded(boolean deliveryIncluded) {
+            this.deliveryIncluded = deliveryIncluded;
+            return this;
+        }
+    }
+
 }

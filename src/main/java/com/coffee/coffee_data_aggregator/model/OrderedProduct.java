@@ -27,4 +27,20 @@ public class OrderedProduct implements Serializable {
     @Column(name = "quantity")
     private int quantity;
 
+    @Getter
+    @Setter
+    public static class Builder {
+        private Order order;
+        private Product product;
+        private int quantity;
+
+        public OrderedProduct build() {
+            OrderedProduct orderedProduct = new OrderedProduct();
+            orderedProduct.setOrder(order);
+            orderedProduct.setProduct(product);
+            orderedProduct.setQuantity(quantity);
+            return orderedProduct;
+        }
+
+    }
 }
