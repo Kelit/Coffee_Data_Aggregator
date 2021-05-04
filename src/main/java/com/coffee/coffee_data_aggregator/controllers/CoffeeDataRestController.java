@@ -22,7 +22,6 @@ import java.util.List;
 public class CoffeeDataRestController {
 
     // Контроллер для работы с продуктами
-
     @Autowired
     ProductService productService;
 

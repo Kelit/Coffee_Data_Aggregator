@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Size(min = 3, message = "Length must be more than 3")
     private String password;
     @NotEmpty
-    private String name;
+    private String username;
     @NotEmpty
     private String phone;
     @NotNull
@@ -51,7 +51,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", phone='" + phone + '\'' +
                 ", active=" + active +
                 ", role='" + role + '\'' +
@@ -66,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getUsername();
+        return username;
     }
 
     @Override

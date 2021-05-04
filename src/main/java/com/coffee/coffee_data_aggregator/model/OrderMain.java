@@ -52,7 +52,7 @@ public class OrderMain implements Serializable {
 
     public OrderMain(User buyer) {
         this.buyerEmail = buyer.getEmail();
-        this.buyerName = buyer.getName();
+        this.buyerName = buyer.getUsername();
         this.buyerPhone = buyer.getPhone();
         this.orderAmount = buyer.getScart().getProducts().stream().map(item -> item.getProductPrice().multiply(new BigDecimal(item.getCount())))
                 .reduce(BigDecimal::add)
