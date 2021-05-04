@@ -3,10 +3,10 @@ package com.coffee.coffee_data_aggregator.model;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NaturalId;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +18,8 @@ public class ProductCategory implements Serializable {
     @GeneratedValue
     private Integer categoryId;
 
+    private Integer id;
+
     private String categoryName;
 
     @NaturalId
@@ -26,6 +28,14 @@ public class ProductCategory implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
     public ProductCategory() {
