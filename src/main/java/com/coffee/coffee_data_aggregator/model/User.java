@@ -5,18 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Table(name = "USER")
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,6 +39,8 @@ public class User {
     @NotEmpty
     private String role = "ROLE_CUSTOMER";
 
+    public  boolean isActive(){ return active;}
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore  // fix bi-direction toString() recursion problem
     private SCart scart;
@@ -51,5 +56,36 @@ public class User {
                 ", active=" + active +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return getUsername();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return isActive();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isActive();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return isActive();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
     }
 }
