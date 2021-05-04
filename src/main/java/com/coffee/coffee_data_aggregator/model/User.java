@@ -1,56 +1,55 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+@Table(name = "USER")
 @Entity
-@Table(name = "user")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class User implements UserDetails, Serializable {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private boolean active;
-    private String username;
-    private String password;
-    private String phone;
+
+    @NaturalId
+    @NotEmpty
     private String email;
+    @NotEmpty
+    @Size(min = 3, message = "Length must be more than 3")
+    private String password;
+    @NotEmpty
+    private String name;
+    @NotEmpty
+    private String phone;
+    @NotNull
+    private boolean active;
+    @NotEmpty
+    private String role = "ROLE_CUSTOMER";
 
-     //T_Role
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
-    // T_SCart
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private SCart sCart;
-
-    public  boolean isActive(){ return active;}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore  // fix bi-direction toString() recursion problem
+    private SCart scart;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", active=" + active +
+                ", role='" + role + '\'' +
+                '}';
     }
-    @Override
-    public String getPassword() { return password;}
-    @Override
-    public String getUsername() { return username;}
-    @Override
-    public boolean isAccountNonExpired() { return isActive(); }
-    @Override
-    public boolean isAccountNonLocked() { return  isActive(); }
-    @Override
-    public boolean isCredentialsNonExpired() { return isActive(); }
-    @Override
-    public boolean isEnabled() { return isActive(); }
 }

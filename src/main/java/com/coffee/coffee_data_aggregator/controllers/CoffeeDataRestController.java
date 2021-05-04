@@ -1,11 +1,6 @@
 package com.coffee.coffee_data_aggregator.controllers;
 
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
-import com.coffee.coffee_data_aggregator.model.User;
-import com.coffee.coffee_data_aggregator.service.ProductService;
-import com.coffee.coffee_data_aggregator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +13,7 @@ import java.util.List;
 @RequestMapping("/coffee/api")
 public class CoffeeDataRestController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ProductService productService;
+
     // Page products
 
     //Получение списка товаров
@@ -29,14 +21,7 @@ public class CoffeeDataRestController {
     produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseBody
     public List<String> getCoffee(){
-        ProductInfo pi = new ProductInfo();
-        pi.setProductPrice(BigDecimal.valueOf(01));
-        pi.setProductName(String.valueOf(1));
-        pi.setProductDescription(String.valueOf(123));
-        pi.setProductStock(1);
-        pi.setProductIcon("https://bezkoder.com/wp-content/uploads/2020/05/spring-boot-pagination-filter-example-spring-jpa-pageable-table.png");
 
-        productService.addProduct(pi);
 //        List<ProductInfo> coffee = productService.findAllProduct();
 
         List<String> coffee = new ArrayList<>();
@@ -79,8 +64,7 @@ public class CoffeeDataRestController {
             headers = {"Content-type=application/json"})
     @ResponseBody
     public String createUser(@RequestBody User user) {
-        log.info("Получили данны: " + user.getUsername());
-        userService.addUser(user);
-        return "Создан пользователь:" + user.getUsername();
+
+
     }
 }
