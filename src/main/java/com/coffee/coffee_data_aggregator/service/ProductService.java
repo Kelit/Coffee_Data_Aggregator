@@ -1,80 +1,105 @@
 package com.coffee.coffee_data_aggregator.service;
 
-import com.coffee.coffee_data_aggregator.model.Product;
-import com.coffee.coffee_data_aggregator.repository.ProductRepository;
+import com.coffee.coffee_data_aggregator.model.ProductInfo;
+import com.coffee.coffee_data_aggregator.repository.ProductInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.lang.model.UnknownEntityException;
-import javax.transaction.Transactional;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    ProductInfoRepository productInfoRepository;
+    @Autowired
+    CategoryService categoryService;
 
-    public List<Product> findAll() {
-        return productRepository.findAll().stream()
-                .sorted(Comparator.comparing(Product::getName))
-                .collect(Collectors.toList());
+    public ProductInfo findOne(String productId) { return  productInfoRepository.findByProductId(productId); }
+
+//    public Page<ProductInfo> findUpAll(Pageable pageable) {
+//        return productInfoRepository.findAllByProductStatusOrderByProductIdAsc(ProductStatusEnum.UP.getCode(),pageable);
+//    }
+
+    public Page<ProductInfo> findAll(Pageable pageable) {
+        return productInfoRepository.findAllByOrderByProductId(pageable);
+    }
+
+    public Page<ProductInfo> findAllInCategory(Integer categoryType, Pageable pageable) {
+        return productInfoRepository.findAllByCategoryTypeOrderByProductIdAsc(categoryType, pageable);
     }
 
     @Transactional
-    public Page<Product> findAll(PageRequest request) {
-        return productRepository.findAll(request);
-    }
-    @Transactional
-    public Product getProduct(long productId) {
-        return productRepository.findById(productId)
-                .orElseThrow(() -> new UnknownEntityException(Product.class, productId));
-    }
+    public void increaseStock(String productId, int amount) {
+        ProductInfo productInfo = findOne(productId);
+//        if (productInfo == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
 
-    public Optional<Product> findById(long productId) {
-        return productRepository.findById(productId);
+        int update = productInfo.getProductStock() + amount;
+        productInfo.setProductStock(update);
+        productInfoRepository.save(productInfo);
     }
 
     @Transactional
-    public void create(Product product, String distilleryTitle) {
-        saveInternal(product, distilleryTitle, true);
+    public void decreaseStock(String productId, int amount) {
+        ProductInfo productInfo = findOne(productId);
+//        if (productInfo == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+
+        int update = productInfo.getProductStock() - amount;
+//        if(update <= 0) throw new MyException(ResultEnum.PRODUCT_NOT_ENOUGH );
+
+        productInfo.setProductStock(update);
+        productInfoRepository.save(productInfo);
     }
 
     @Transactional
-    public void update(long productId, Product product, String distilleryTitle) {
-        Product original = getProduct(productId);
-        product.setId(original.getId());
-        saveInternal(product, distilleryTitle, original.isAvailable()); // keep original availability
-    }
+    public ProductInfo offSale(String productId) {
+        ProductInfo productInfo = findOne(productId);
+//        if (productInfo == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+//
+//        if (productInfo.getProductStatus() == ProductStatusEnum.DOWN.getCode()) {
+//            throw new MyException(ResultEnum.PRODUCT_STATUS_ERROR);
+//        }
 
-    private void saveInternal(Product changed, String distilleryTitle, boolean available) {
-        productRepository.save(changed);
-    }
-
-    public void updateAvailability(Map<Boolean, List<Long>> productIdsByAvailability) {
-        for (Map.Entry<Boolean, List<Long>> e : productIdsByAvailability.entrySet()) {
-            Boolean targetAvailability = e.getKey();
-            List<Product> productsToUpdate = e.getValue().stream()
-                    .map(this::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .filter(product -> product.isAvailable() != targetAvailability)
-                    .collect(Collectors.toList());
-            for (Product product : productsToUpdate) {
-                product.setAvailable(targetAvailability);
-                productRepository.save(product);
-            }
-        }
+        //update
+//        productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
+        return productInfoRepository.save(productInfo);
     }
 
     @Transactional
-    public void delete(long product) {
-        productRepository.deleteById(product);
+    public ProductInfo onSale(String productId) {
+        ProductInfo productInfo = findOne(productId);
+//        if (productInfo == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+//
+//        if (productInfo.getProductStatus() == ProductStatusEnum.UP.getCode()) {
+//            throw new MyException(ResultEnum.PRODUCT_STATUS_ERROR);
+//        }
+
+        //update
+//        productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+        return productInfoRepository.save(productInfo);
+    }
+
+    public ProductInfo update(ProductInfo productInfo) throws Exception {
+
+        // if null throw exception
+        categoryService.findByCategoryType(productInfo.getCategoryType());
+//        if(productInfo.getProductStatus() > 1) {
+//            throw new MyException(ResultEnum.PRODUCT_STATUS_ERROR);
+//        }
+
+
+        return productInfoRepository.save(productInfo);
+    }
+
+    public ProductInfo save(ProductInfo productInfo) throws Exception {
+        return update(productInfo);
+    }
+
+    public void delete(String productId) {
+        ProductInfo productInfo = findOne(productId);
+//        if (productInfo == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+        productInfoRepository.delete(productInfo);
+
     }
 }

@@ -47,19 +47,19 @@ public class UserManagerController {
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
-    ) {
-//        List<String> role = form.entrySet().stream().filter(v -> v.getValue().equals("on"))
-//                .map(Map.Entry::getKey).collect(Collectors.toList());
-//        String active = form.entrySet().stream().filter(k -> k.getKey().equals("active")).map(Map.Entry::getValue).findFirst().get();
-//
-//        log.info(form + "KeyForm");
-//        log.info(form.values() + "ValueForm");
-//        log.info(role + "RoleString");
-//        log.info(active + "ActiveString");
-//
-//        if(user.getUsername() != username) user.setUsername(username);
-//        user.setActive(Boolean.parseBoolean(active));//true false
-//        userService.saveUser(user, role);
+    ) throws Exception {
+        List<String> role = form.entrySet().stream().filter(v -> v.getValue().equals("on"))
+                .map(Map.Entry::getKey).collect(Collectors.toList());
+        String active = form.entrySet().stream().filter(k -> k.getKey().equals("active")).map(Map.Entry::getValue).findFirst().get();
+
+        log.info(form + "KeyForm");
+        log.info(form.values() + "ValueForm");
+        log.info(role + "RoleString");
+        log.info(active + "ActiveString");
+
+        if(user.getUsername() != username) user.setUsername(username);
+        user.setActive(Boolean.parseBoolean(active));//true false
+        userService.save(user);
         return "redirect:/userlist";
     }
 }

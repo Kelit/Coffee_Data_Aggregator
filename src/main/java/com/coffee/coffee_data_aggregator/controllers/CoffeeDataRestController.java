@@ -3,13 +3,16 @@ package com.coffee.coffee_data_aggregator.controllers;
 import com.coffee.coffee_data_aggregator.model.ProductInfo;
 import com.coffee.coffee_data_aggregator.model.User;
 import com.coffee.coffee_data_aggregator.service.ProductService;
-import com.coffee.coffee_data_aggregator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,69 +21,59 @@ import java.util.List;
 @RequestMapping("/coffee/api")
 public class CoffeeDataRestController {
 
+    // Контроллер для работы с продуктами
     @Autowired
-    private UserService userService;
-    @Autowired
-    private ProductService productService;
-    // Page products
+    ProductService productService;
 
-    //Получение списка товаров
-    @RequestMapping(value = "/get-coffee", method = RequestMethod.GET,
-    produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-    public List<String> getCoffee(){
-        ProductInfo pi = new ProductInfo();
-        pi.setProductPrice(BigDecimal.valueOf(01));
-        pi.setProductName(String.valueOf(1));
-        pi.setProductDescription(String.valueOf(123));
-        pi.setProductStock(1);
-        pi.setProductIcon("https://bezkoder.com/wp-content/uploads/2020/05/spring-boot-pagination-filter-example-spring-jpa-pageable-table.png");
-
-        productService.addProduct(pi);
-//        List<ProductInfo> coffee = productService.findAllProduct();
-
-        List<String> coffee = new ArrayList<>();
-        coffee.add("MY");
-        return coffee;
-
-//        return coffee;
+    // Показать все
+//    @GetMapping("/product")
+    @RequestMapping(value = "/get-product", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<ProductInfo> getCoffee(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "3") Integer size) {
+        PageRequest request = PageRequest.of(page - 1, size);
+        return productService.findAll(request);
     }
+    // Показать один
+    @GetMapping("/product/{productId}")
+    public ProductInfo showOne(@PathVariable("productId") String productId) { return productService.findOne(productId); }
     //Удаление товаров
-    @RequestMapping(value = "/del-coffee", method = RequestMethod.DELETE,
+    @RequestMapping(value = "/del-product/{id}/delete", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String delCoffee(){
-
-        return "Item has delete";
+    public ResponseEntity delete(@PathVariable("id") String productId) {
+        productService.delete(productId);
+        return ResponseEntity.ok().build();
     }
 
-    // Page prodductOrder
-    //Получение списка товаров
-    @RequestMapping(value = "/get-orders", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<String> getOrders(){
-        List<String> coffee = new ArrayList<>();
-        coffee.add("MY");
-        return coffee;
-    }
-    //Удаление товаров
-    @RequestMapping(value = "/del-order", method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String delOrder(){
-
-        return "Order has delete";
+    //Добавить новый
+    @PostMapping("/product/new")
+    public ResponseEntity create(@Valid @RequestBody ProductInfo product,
+                                 BindingResult bindingResult) throws Exception {
+        ProductInfo productIdExists = productService.findOne(product.getProductId());
+        if (productIdExists != null) {
+            bindingResult
+                    .rejectValue("productId", "error.product",
+                            "There is already a product with the code provided");
+        }
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult);
+        }
+        return ResponseEntity.ok(productService.save(product));
     }
 
-
-    @RequestMapping(value = "/create-user",
-            method = RequestMethod.POST,
-            headers = {"Content-type=application/json"})
-    @ResponseBody
-    public String createUser(@RequestBody User user) {
-        log.info("Получили данны: " + user.getUsername());
-        userService.addUser(user);
-        return "Создан пользователь:" + user.getUsername();
+    // Редактировать
+    @PutMapping("/product/{id}/edit")
+    public ResponseEntity edit(@PathVariable("id") String productId,
+                               @Valid @RequestBody ProductInfo product,
+                               BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult);
+        }
+        if (!productId.equals(product.getProductId())) {
+            return ResponseEntity.badRequest().body("Id Not Matched");
+        }
+        return ResponseEntity.ok(productService.update(product));
     }
+
 }

@@ -1,76 +1,83 @@
 package com.coffee.coffee_data_aggregator.service;
 
-import com.coffee.coffee_data_aggregator.model.CartItem;
-import com.coffee.coffee_data_aggregator.model.Product;
+import com.coffee.coffee_data_aggregator.model.OrderMain;
+import com.coffee.coffee_data_aggregator.model.ProductInOrder;
 import com.coffee.coffee_data_aggregator.model.SCart;
 import com.coffee.coffee_data_aggregator.model.User;
-import com.coffee.coffee_data_aggregator.repository.ProductRepository;
+import com.coffee.coffee_data_aggregator.repository.OrderMainRepository;
+import com.coffee.coffee_data_aggregator.repository.ProductInOrderRepository;
 import com.coffee.coffee_data_aggregator.repository.SCartRepository;
 import com.coffee.coffee_data_aggregator.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
-@Slf4j
+import java.util.Set;
+
 @Service
 public class ScartService {
 
     @Autowired
-    private SCartRepository sCartRepository;
+    OrderMainRepository orderMainRepository;
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
     @Autowired
-    private ProductRepository productRepository;
+    ProductInOrderRepository productInOrderRepository;
+    @Autowired
+    SCartRepository cartRepository;
 
-//    @Transactional(propagation = Propagation.SUPPORTS)
-    public SCart getCartOrCreate(String username) {
-        User account = userRepository.findByUsername(username);
-        Optional<SCart> cartOptional = sCartRepository.findById(account.getId());
-        return cartOptional.orElseGet(() -> createCart(account));
-//        return true;
-    }
+    @Autowired
+    UserService userService;
+    @Autowired
+    ProductService productService;
 
-    private SCart createCart(User account) {
-        log.debug("Creating new cart for account #" + account.getId());
-        return sCartRepository.save(new SCart(account));
-    }
+    public SCart getCart(User user) {return user.getScart();}
+
     @Transactional
-    public boolean addToCart(String user, long productId, int quantity) {
-        SCart cart = getCartOrCreate(user);
-        Product product = productRepository.getProduct(productId);
-        if (product.isAvailable()) {
-            cart.update(product, quantity);
-            sCartRepository.save(cart);
-            return true;
-        } else {
-            return false;
-        }
+    public void delete(String itemId, User user) {
+        var op = user.getScart().getProducts().stream().
+                                                filter(e -> itemId.equals(e.getProductId())).
+                                                findFirst();
+        op.ifPresent(productInOrder -> {
+            productInOrder.setScart(null);
+            productInOrderRepository.deleteById(productInOrder.getId());
+        });
     }
 
     @Transactional
-    public Boolean addAllToCart(String userEmail, List<CartItem> itemsToAdd) {
-        SCart cart = getCartOrCreate(userEmail);
-        boolean updated = false;
-        for (CartItem item : itemsToAdd) {
-            Optional<Product> product = productRepository.findById(item.getProduct().getId());
-            if (product.isPresent() && product.get().isAvailable()) {
-                cart.update(product.get(), item.getQuantity());
-                updated = true;
+    public void checkout(User user) {
+        // Создать заказа
+        OrderMain order = new OrderMain(user);
+        orderMainRepository.save(order);
+
+
+        user.getScart().getProducts().forEach(productInOrder -> {
+            productInOrder.setScart(null);
+            productInOrder.setOrderMain(order);
+            productService.decreaseStock(productInOrder.getProductId(), productInOrder.getCount());
+            productInOrderRepository.save(productInOrder);
+        });
+    }
+
+    @Transactional
+    public void mergeLocalCart(Collection<ProductInOrder> productInOrders, User user) {
+        SCart finalCart = user.getScart();
+        productInOrders.forEach(productInOrder -> {
+            Set<ProductInOrder> set = finalCart.getProducts();
+            Optional<ProductInOrder> old = set.stream().filter(e -> e.getProductId().equals(productInOrder.getProductId())).findFirst();
+            ProductInOrder prod;
+            if (((Optional<?>) old).isPresent()) {
+                prod = old.get();
+                prod.setCount(productInOrder.getCount() + prod.getCount());
+            } else {
+                prod = productInOrder;
+                prod.setScart(finalCart);
+                finalCart.getProducts().add(prod);
             }
-        }
-        if (updated) {sCartRepository.save(cart);}
-        return true;
-    }
-
-    @Transactional
-    public boolean clearCart(String userEmail) {
-        SCart cart = getCartOrCreate(userEmail);
-        cart.clear();
-        sCartRepository.save(cart);
-        return true;
+            productInOrderRepository.save(prod);
+        });
+        cartRepository.save(finalCart);
     }
 }

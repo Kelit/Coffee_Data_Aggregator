@@ -3,11 +3,11 @@ $(document).ready(function () {
         $.ajax(
             {
                 type: 'GET',
-                url: '/coffee/api/get-coffee',
+                url: '/coffee/api/get-product',
                 contentType: 'application/json',
                 success: function (data) {
                     console.log(data)
-                    $('#addProduct').append('<th scope="col">'+data+'</th>')
+                    $('#addProduct').append('<th scope="col">'+data.productId+'</th>')
                 },
                 error: function () {
                     console.log("Ошибка")
