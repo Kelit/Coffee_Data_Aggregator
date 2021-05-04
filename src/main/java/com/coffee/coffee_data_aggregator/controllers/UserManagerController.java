@@ -1,5 +1,7 @@
 package com.coffee.coffee_data_aggregator.controllers;
 
+import com.coffee.coffee_data_aggregator.model.User;
+import com.coffee.coffee_data_aggregator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -22,7 +23,6 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
     @Autowired
     SCartRepository cartRepository;
-
 
     public User findOne(String email) { return userRepository.findByEmail(email);}
 
@@ -59,5 +59,17 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(username);
         if(user == null){ throw new UsernameNotFoundException("Пользователь не найден");}
         return user;
+    }
+
+    public List<User> findAllUsers(){ return userRepository.findAll();}
+    public  String getRoleList(User user){ return user.getRole();}
+
+
+    public void deletUser(Long id) {
+        if(id == null || id == 0) return;
+
+        User user = (User) userRepository.findById(id);
+        System.out.println(user.getUsername() + " удален");
+        userRepository.delete(user);
     }
 }
