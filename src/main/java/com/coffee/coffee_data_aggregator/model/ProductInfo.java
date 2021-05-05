@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -73,4 +73,4 @@ public class ProductInfo implements ComboListItem {
 //    public ProductInfo() {
 
 
-}
+}*/
