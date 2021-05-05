@@ -9,7 +9,7 @@ $(document).ready(function () {
                     console.log(data)
                     for(const c in data){
                         $('#typeProduct').append('<tr>'+
-                                                    '<th scope="row"><a href='+'/product/'+data[c].productId+'>'+data[c].productId+'</a></th>'+
+                                                    '<th scope="row"><a href='+'product/'+data[c].productId+'>'+data[c].productId+'</a></th>'+
                                                     '<td>'+data[c].productName+'</td>'+
                                                     '<td>'+data[c].productPrice+'</td>'+
                                                     '<td>'+data[c].productStock+'</td>'+

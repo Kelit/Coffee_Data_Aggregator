@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +43,7 @@ public class CoffeeDataRestController {
         return productService.findAll(pageable).getContent();
     }
     // Показать один
-    @GetMapping("/product/{productId}")
-    public ProductInfo showOne(@PathVariable("productId") String productId) { return productService.findOne(productId); }
+
     //Удаление товаров
     @RequestMapping(value = "/del-product/{id}/delete", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
