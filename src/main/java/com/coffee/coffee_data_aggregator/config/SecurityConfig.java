@@ -1,6 +1,5 @@
 package com.coffee.coffee_data_aggregator.config;
 
-import com.coffee.coffee_data_aggregator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -40,6 +39,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 password(getPasswordEncoder().
                         encode("1122")).
                 roles("ADMIN");
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 }

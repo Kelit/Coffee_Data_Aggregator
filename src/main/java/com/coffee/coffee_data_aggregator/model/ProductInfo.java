@@ -1,13 +1,14 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -17,28 +18,59 @@ import java.util.Date;
 @Entity
 @Data
 @DynamicUpdate
-public class ProductInfo implements Serializable {
+public class ProductInfo implements ComboListItem {
     @Id
-    private String productId;
-    @NotNull
-    private String productName;
-    @NotNull
-    private BigDecimal productPrice;
-    @NotNull
-    @Min(0)
-    private Integer productStock;
-    private String productDescription;
-    private String productIcon;
-    @ColumnDefault("0")
-    private Integer productStatus;
-    @ColumnDefault("0")
-    private Integer categoryType;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String name;
 
-    @CreationTimestamp
-    private Date createTime;
-    @UpdateTimestamp
-    private Date updateTime;
-    public ProductInfo() {
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
+    private ProductCategory categ;
+
+//    private BigDecimal productPrice;
+//    @NotNull
+//    @Min(0)
+//    private Integer productStock;
+//    private String productDescription;
+//    private String productIcon;
+//    @ColumnDefault("0")
+//    private Integer productStatus;
+//    @ColumnDefault("0")
+//    private Integer categoryType;
+//
+//    @CreationTimestamp
+//    private Date createTime;
+//    @UpdateTimestamp
+//    private Date updateTime;
+
+    @Override
+    @JsonIgnore
+    public String getRepr() {
+        return String.format("%s %s", categ.getName(), name);
     }
+
+//    @Id
+//    private String productId;
+//    @NotNull
+//    private String productName;
+//    @NotNull
+//    private BigDecimal productPrice;
+//    @NotNull
+//    @Min(0)
+//    private Integer productStock;
+//    private String productDescription;
+//    private String productIcon;
+//    @ColumnDefault("0")
+//    private Integer productStatus;
+//    @ColumnDefault("0")
+//    private Integer categoryType;
+//
+//    @CreationTimestamp
+//    private Date createTime;
+//    @UpdateTimestamp
+//    private Date updateTime;
+//    public ProductInfo() {
+
 
 }
