@@ -7,7 +7,17 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 success: function (data) {
                     console.log(data)
-                    $('#addProduct').append('<th scope="col">'+data.productId+'</th>')
+                    for(const c in data){
+                        $('#typeProduct').append('<tr>'+
+                                                    '<th scope="row"><a href='+'/product/'+data[c].productId+'>'+data[c].productId+'</a></th>'+
+                                                    '<td>'+data[c].productName+'</td>'+
+                                                    '<td>'+data[c].productPrice+'</td>'+
+                                                    '<td>'+data[c].productStock+'</td>'+
+                                                    '<td><img src='+data[c].productIcon+'' +
+                            '                            width="210" height="250">'+'</td>'+
+                                                    '<td>'+data[c].productDescription+'</td>'+
+                                                +'</tr>')
+                        }
                 },
                 error: function () {
                     console.log("Ошибка")

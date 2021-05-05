@@ -34,9 +34,17 @@
         <div class="calendar">
             <table class="table table-borderless tableProduct">
                 <thead>
-                <tr id="addProduct"></tr>
+                <tr id="addProduct">
+                    <th scope="col">ID</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">В наличии</th>
+                    <th scope="col">Иконка</th>
+                    <th scope="col">Описание</th>
+                </tr>
                 </thead>
                 <tbody id="typeProduct">
+
                 </tbody>
             </table>
         </div>

@@ -7,11 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.plugins.jpeg.JPEGQTable;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,12 +29,17 @@ public class CoffeeDataRestController {
 
     // Показать все
 //    @GetMapping("/product")
+//    @RequestMapping(value = "/get-product", method = RequestMethod.GET,
+//        produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Page<ProductInfo> getCoffee(@RequestParam(value = "page", defaultValue = "1") Integer page,
+//                                     @RequestParam(value = "size", defaultValue = "3") Integer size) {
+//        PageRequest request = PageRequest.of(page - 1, size);
+//        return productService.findAll(request);
+//    }
     @RequestMapping(value = "/get-product", method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<ProductInfo> getCoffee(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                     @RequestParam(value = "size", defaultValue = "3") Integer size) {
-        PageRequest request = PageRequest.of(page - 1, size);
-        return productService.findAll(request);
+    public List<ProductInfo> getCoffee(Pageable pageable) {
+        return productService.findAll(pageable).getContent();
     }
     // Показать один
     @GetMapping("/product/{productId}")
