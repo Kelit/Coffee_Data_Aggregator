@@ -1,7 +1,8 @@
 package com.coffee.coffee_data_aggregator.model;
-/*
+
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,7 +18,6 @@ import java.util.Date;
 
 @Entity
 @Data
-@DynamicUpdate
 public class ProductInfo implements ComboListItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,8 +25,9 @@ public class ProductInfo implements ComboListItem {
     private String name;
 
     @ManyToOne
-    @JsonIdentityReference(alwaysAsId = true)
-    private ProductCategory categ;
+    @JsonIdentityReference
+    @JsonSerialize(as=ComboListItem.class)//!!
+    private ProductCategory category;
 
 //    private BigDecimal productPrice;
 //    @NotNull
@@ -44,11 +45,7 @@ public class ProductInfo implements ComboListItem {
 //    @UpdateTimestamp
 //    private Date updateTime;
 
-    @Override
-    @JsonIgnore
-    public String getRepr() {
-        return String.format("%s %s", categ.getName(), name);
-    }
+
 
 //    @Id
 //    private String productId;
@@ -73,4 +70,4 @@ public class ProductInfo implements ComboListItem {
 //    public ProductInfo() {
 
 
-}*/
+}

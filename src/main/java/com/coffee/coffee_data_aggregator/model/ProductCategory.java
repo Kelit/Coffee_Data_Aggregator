@@ -23,7 +23,7 @@ import java.util.Date;
 )
 public class ProductCategory implements ComboListItem {
         @Id
-        @GeneratedValue(strategy = GenerationType.TABLE)
+        @GeneratedValue(strategy = GenerationType.TABLE)//!!
         private Long id;
         private String name;
     //    @Id

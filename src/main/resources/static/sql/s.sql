@@ -11,3 +11,4 @@ INSERT INTO "PRODUCT_INFO" VALUES ('D0002', 3, '2018-03-10 12:08:17', 'Awesome',
 INSERT INTO "PRODUCT_INFO" VALUES ('F0001', 1, '2018-03-10 12:15:05', 'Kids Party Food', 'http://asset1.marksandspencer.com/is/image/mands/MS_FD_F04C_00398503_NC_X_EC_0?$PDP_MAXI_ZOOM_NEW$', 'Chicken', 4.00, 0, 57, '2018-03-10 12:15:10');
 INSERT INTO "PRODUCT_INFO" VALUES ('F0002', 1, '2018-03-10 12:16:44', 'Family s', 'http://cdn1.thecomeback.com/wp-content/uploads/2017/05/mcdonalds_food-832x447.png', 'McDonald‘s Food', 20.00, 0, 22, '2018-03-10 12:16:44');
 
+INSERT INTO "PRODUCT_INFO" VALUES ( 3, '23',1)
