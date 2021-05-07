@@ -1,20 +1,11 @@
-define(['static/js/component/listPage.js'], function(listPage) {
-    return listPage(
-        'productList',
-        'resource->/api/product',
-        [grida = webix.ui({
-            container:"testA",
-            view:"datatable",
-            columns:[
-                { id: 'name', editor: 'text' }
-            ],
+define(function(listPage) {
+    return {
 
-            autowidth:true,
-
-            url:"/api/product/list"
-        })
+                cols: [
+                    { template: 'col 1' },
+                    { template: 'col 2' }
+                ]
 
 
-        ]
-    )
+    }
 })

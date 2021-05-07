@@ -7,11 +7,11 @@ define(function() {
                     cols: [
                         {
                             view: 'button',
-                            label: 'Add',
+                            label: 'Добавить',
                             click: function() {
-                                var categoryList = $$(tableId)
-                                var id = categoryList.add({})
-                                categoryList.editRow(id)
+                                var List = $$(tableId)
+                                var id = List.add({})
+                                List.editRow(id)
                             }
                         }
                     ]

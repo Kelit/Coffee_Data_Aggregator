@@ -24,8 +24,9 @@ function buildButton(label, route) {
 }
 var menu_button  = [
         buildButton('Home', ''),
-        buildButton('Товары', 'products'),
-        buildButton('Категории', 'category'),
+        buildButton('Пользователи', 'users'),
+        // buildButton('Товары', 'products'),
+        // buildButton('Категории', 'category'),
         {id: "demo", icon: "mdi mdi-book", value:"Documentation"}
 ];
 
@@ -45,11 +46,12 @@ var menu ={
 require(
     [
         'static/js/views/main.js',
-        'static/js/views/product/productList.js',
-        'static/js/views/category/categoryList.js',
-        // 'util/resourceProxy',
+        'static/js/views/user/userList.js',
+        // 'static/js/views/product/productList.js',
+        // 'static/js/views/category/categoryList.js',
+        'util/resourceProxy',
     ],
-    function(main, products, categories,resourceProxy) {
+    function(main,users,products, categories,resourceProxy) {
         webix.ready(function(){
             webix.ui({
                 type:"wide",
@@ -60,8 +62,9 @@ require(
         })
         routie({
             '': buildRoute(main),
-            'products': buildRoute(products),
-            'category': buildRoute(categories),
+            'users': buildRoute(users),
+            // 'products': buildRoute(products),
+            // 'category': buildRoute(categories),
             // 'marks': buildRoute(marks)
         })
 })

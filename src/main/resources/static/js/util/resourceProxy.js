@@ -14,7 +14,7 @@ define(function() {
             args += '&size=' + view.config.datafetch
 
             var url = view.config.url.source
-            console.log(url);
+
             return ajax.get(url + args)
                 .then(function(value) {
                     var response = value.json()

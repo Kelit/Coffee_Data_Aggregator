@@ -11,4 +11,5 @@ public class UserController extends AbstractRestController<User, UserRepository>
         public UserController(UserRepository repo) {
             super(repo);
         }
+
 }
