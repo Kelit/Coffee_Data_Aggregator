@@ -14,36 +14,21 @@ import java.util.stream.Collectors;
 public abstract class AbstractRestController<T extends ComboListItem, R extends JpaRepository<T, ?>> {
     protected R repo;
 
-    public AbstractRestController(R repo) {
-        this.repo = repo;
-    }
-
+    public AbstractRestController(R repo) { this.repo = repo; }
     @GetMapping
-    public Page<T> list(@PageableDefault Pageable pageable) {
-        return repo.findAll(pageable);
-    }
-
+    public Page<T> list(@PageableDefault Pageable pageable) { return repo.findAll(pageable); }
     @GetMapping("{id}")
-    public T getOne(@PathVariable("id") T obj) {
-        return obj;
-    }
-
+    public T getOne(@PathVariable("id") T obj) { return obj; }
     @PostMapping
-    public T add(@RequestBody T obj) {
-        return repo.save(obj);
-    }
-
+    public T add(@RequestBody T obj) { return repo.save(obj); }
     @PutMapping("{id}")
     public T update(@PathVariable("id") T dbObj, @RequestBody T obj) {
         BeanUtils.copyProperties(obj, dbObj, "id");
-
         return repo.save(dbObj);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") T dbObj) {
-        repo.delete(dbObj);
-    }
+    public void delete(@PathVariable("id") T dbObj) { repo.delete(dbObj); }
 
     @GetMapping("list")
     public List<ListItemDto> list() {

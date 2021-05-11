@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public class UserController extends AbstractRestController<User, UserRepository> {
-        public UserController(UserRepository repo) {
-            super(repo);
-        }
+        public UserController(UserRepository repo) { super(repo); }
 
 }

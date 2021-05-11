@@ -7,14 +7,12 @@ define(['static/js/component/listPage.js'], function (listPage){
                 {id:'email', editor:'text'},
                 {id:'password', editor:'text'},
                 {id:'phone', editor:'text'},
-                // {id:'active', editor:'boolean'},
-                {
-                    id: 'active',
-                    dialogUrl: 'views/user/userDialogActive.js',
-                    template: function(row) {
-                        return row.model && row.model.repr || ''
-                    }
-                }
+                {id:'active',
+                            editor:"select",
+                            template: true,
+                            options:[true, false]
+                        },
+                {id:'role', template:'ROLE_CUSTOMER'}
             ]
     )
 })
