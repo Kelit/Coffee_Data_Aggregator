@@ -19,25 +19,29 @@ function buildButton(label, route) {
         value: label,
         width: 100,
         align: 'center',
-        content: route
+        content: route,
+        click: function() {
+            routie(route)
+        }
     }
 }
 var menu_button  = [
         buildButton('Home', ''),
         buildButton('Пользователи', 'users'),
-        // buildButton('Товары', 'products'),
+        buildButton('Товары', 'products'),
         // buildButton('Категории', 'category'),
         {id: "demo", icon: "mdi mdi-book", value:"Documentation"}
 ];
 
 var menu ={
         view: "menu", id: "m1",
-        layout: "y", width: 250,
+        layout: "y", width: 350,
         select: true,
         data: menu_button,
         on: {
             onMenuItemClick: function (id) {
                 routie(this.getMenuItem(id).content);
+                // $$('root').setHTML(routie(this.getMenuItem(id).content));
             }
         }
 }
@@ -47,7 +51,7 @@ require(
     [
         'static/js/views/main.js',
         'static/js/views/user/userList.js',
-        // 'static/js/views/product/productList.js',
+        'static/js/views/product/productList.js',
         // 'static/js/views/category/categoryList.js',
         'util/resourceProxy',
     ],
@@ -63,7 +67,7 @@ require(
         routie({
             '': buildRoute(main),
             'users': buildRoute(users),
-            // 'products': buildRoute(products),
+            'products': buildRoute(products),
             // 'category': buildRoute(categories),
             // 'marks': buildRoute(marks)
         })

@@ -26,24 +26,31 @@ public class ProductInfo implements ComboListItem {
 
     @ManyToOne
     @JsonIdentityReference
-    @JsonSerialize(as=ComboListItem.class)//!!
+    @JsonSerialize(as=ComboListItem.class)
     private ProductCategory category;
 
-//    private BigDecimal productPrice;
-//    @NotNull
-//    @Min(0)
-//    private Integer productStock;
-//    private String productDescription;
-//    private String productIcon;
+    private BigDecimal productPrice;
+    @NotNull
+    @Min(0)
+    private Integer productStock;
+    private String productDescription;
+    private String productIcon;
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (productIcon == null || id == null) return null;
+
+        return "/user-photos/" + id + "/" + productIcon;
+    }
 //    @ColumnDefault("0")
 //    private Integer productStatus;
 //    @ColumnDefault("0")
 //    private Integer categoryType;
 //
-//    @CreationTimestamp
-//    private Date createTime;
-//    @UpdateTimestamp
-//    private Date updateTime;
+    @CreationTimestamp
+    private Date createTime;
+    @UpdateTimestamp
+    private Date updateTime;
 
 
 
