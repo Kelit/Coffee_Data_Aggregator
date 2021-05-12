@@ -5,13 +5,12 @@ define(function() {
                 {
                     view: 'toolbar',
                     cols: [
-                        {
-                            view: 'button',
+                        {   view: 'button',
                             label: 'Добавить',
                             click: function() {
                                 var List = $$(tableId)
                                 var id = List.add({})
-                                List.editRow(id)
+                                // List.editRow(id)
                             }
                         }
                     ]
@@ -21,7 +20,7 @@ define(function() {
                     view: 'datatable',
                     columns: columns,
                     url: url,
-                    save: url,
+                    // save: url,
                     autoheight: true,
                     autowidth: true,
                     editable: true,
@@ -50,6 +49,7 @@ define(function() {
                             }
                         }
                     }
+
                 },
                 {
                     view: 'pager',
