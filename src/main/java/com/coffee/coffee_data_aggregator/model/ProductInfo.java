@@ -34,14 +34,12 @@ public class ProductInfo implements ComboListItem {
     @Min(0)
     private Integer productStock;
     private String productDescription;
-    private String productIcon;
 
-    @Transient
-    public String getPhotosImagePath() {
-        if (productIcon == null || id == null) return null;
+    @ManyToOne
+    @JsonIdentityReference
+    @JsonSerialize(as=ComboListItem.class)
+    private ImageModel productIcon;
 
-        return "/user-photos/" + id + "/" + productIcon;
-    }
 //    @ColumnDefault("0")
 //    private Integer productStatus;
 //    @ColumnDefault("0")

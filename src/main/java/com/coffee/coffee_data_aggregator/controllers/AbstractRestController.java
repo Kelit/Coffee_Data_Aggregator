@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractRestController<T extends ComboListItem, R extends JpaRepository<T, ?>> {
     protected R repo;
-    protected T model;
 
     public AbstractRestController(R repo) { this.repo = repo; }
     @GetMapping

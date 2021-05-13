@@ -21,14 +21,24 @@ define(['static/js/collections/categorys.js'], function(category) {
                             { view:"text", id:"description", value:"Описание"},
 
                             {
-                                view: "uploader", value: "Upload file",
-                                id:"uploader1", name:"records",
-                                link:"list1",
-                                upload:"/api/image/save"
-                            },
-                            {
-                                view:"list",  id:"list1", type:"uploader",
-                                autoheight:true, borderless:true
+                                view:"form",
+                                rows:[
+                                    {
+                                        view:"uploader",
+                                        id: "uploader1",
+                                        value:"file",
+                                        link:"file",
+                                        upload:webix.proxy().post('/api/image/upload',),
+                                        datatype:"json"
+                                    },
+                                    {
+                                        view:"list",
+                                        id:"list1",
+                                        type:"uploader",
+                                        autoheight:true,
+                                        borderless:true
+                                    }
+                                ]
                             },
                             // { view: "label", label: "Фото"},
                             // { view:"text", id:"icon", value:"Фото"},

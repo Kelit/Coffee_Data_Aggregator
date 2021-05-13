@@ -15,23 +15,5 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController extends AbstractRestController<ProductInfo, ProductRepository> {
-    @Autowired
-    ProductRepository repository;
-
-    public ProductController(ProductRepository repo) {
-        super(repo);
-    }
-
-
-    @PostMapping("/save")
-    public void saveUser(@RequestParam("image") MultipartFile multipartFile) throws IOException {
-
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        model.setProductIcon(fileName);
-        repo.save(model);
-
-        String uploadDir = "product-photos/" + model.getId();
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
-    }
+    public ProductController(ProductRepository repo) { super(repo); }
 }
