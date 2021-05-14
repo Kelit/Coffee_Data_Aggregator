@@ -2,7 +2,6 @@ package com.coffee.coffee_data_aggregator.controllers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,18 +14,13 @@ import com.coffee.coffee_data_aggregator.message.ResponseMessage;
 import com.coffee.coffee_data_aggregator.model.ImageModel;
 import com.coffee.coffee_data_aggregator.repository.ImageRepository;
 import com.coffee.coffee_data_aggregator.service.ImageStorageService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/image")
@@ -41,15 +35,15 @@ public class ImageController {
     @GetMapping("/files")
     public ResponseEntity<List<ResponseFile>> getListFiles() {
         List<ResponseFile> files = imageStorageService.getAllFiles().map(dbFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/files/")
-                    .path(dbFile.getId().toString())
-                    .toUriString();
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(dbFile.getId().toString())
+//                    .toUriString();
 
             return new ResponseFile(
+                    String.valueOf(dbFile.getId()),
                     dbFile.getName(),
-                    fileDownloadUri,
                     dbFile.getType(),
                     dbFile.getPicByte());
         }).collect(Collectors.toList());
@@ -58,7 +52,7 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uplaodImage(@RequestParam("file") MultipartFile file) throws Exception {
+    public ResponseEntity<ResponseMessage> uplaodImage(@RequestParam("upload") MultipartFile file) throws Exception {
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
         String message = "";
 //        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
@@ -79,6 +73,19 @@ public class ImageController {
 
         return img;
     }
+
+    @GetMapping("/getbyid/{id}")
+    public Optional<ImageModel> getImageById(@PathVariable("id") Long id) throws Exception{
+
+        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
+
+//        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+//                retrievedImage.get().getPicByte());
+
+        return retrievedImage;
+    }
+
+
 
     // compress the image bytes before storing it in the database
     public static byte[] compressBytes(byte[] data) {

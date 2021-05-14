@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -23,7 +24,7 @@ public class ImageStorageService {
         return imageRepo.save(fileImg);
     }
 
-    public ImageModel getFile(String id) {
+    public Optional<ImageModel> getFile(Long id) {
         return imageRepo.findById(id);
     }
 
