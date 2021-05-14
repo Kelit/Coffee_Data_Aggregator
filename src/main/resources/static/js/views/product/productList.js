@@ -1,4 +1,4 @@
-define(['static/js/collections/categorys.js'], function(category) {
+define(['static/js/collections/categorys.js', 'static/js/collections/images.js'], function(category,images) {
     return {
         rows:[
             {cols:[
@@ -19,16 +19,17 @@ define(['static/js/collections/categorys.js'], function(category) {
                     {rows:[
                             { view: "label", label: "Описание"},
                             { view:"text", id:"description", value:"Описание"},
-
                             {
                                 view:"form",
                                 rows:[
                                     {
                                         view:"uploader",
                                         id: "uploader1",
-                                        value:"file",
-                                        link:"file",
-                                        upload:webix.proxy().post('/api/image/upload',),
+                                        value:"Добавить изображение",
+                                        name:"file", accept:"image/png, image/gif, image/jpeg",
+                                        link:"mylist",
+                                        upload:'api/image/upload',
+                                        autosend:false,
                                         datatype:"json"
                                     },
                                     {
@@ -37,11 +38,51 @@ define(['static/js/collections/categorys.js'], function(category) {
                                         type:"uploader",
                                         autoheight:true,
                                         borderless:true
+                                    },
+                                    {
+                                        view:"button",
+                                        value:"Отправить",
+                                        click:function(){
+                                            $$('uploader1').send();
+                                        }
                                     }
                                 ]
                             },
-                            // { view: "label", label: "Фото"},
-                            // { view:"text", id:"icon", value:"Фото"},
+                            {
+
+                                view: "dataview",
+                                id: "imageList",
+                                css: "nav_list",
+                                yCount: 1,
+                                select: true,
+                                scroll: false,
+                                type: {
+                                    width: 100,
+                                    height: 65
+                                },
+                                template: img,
+                                data: images
+                            },
+                            // {
+                            //     view:"toolbar", elements:[
+                            //         { view:"richselect", value:1, height:180, width:300, options:{
+                            //                 view:"datasuggest",
+                            //                 template:function(obj){
+                            //                     return '<img src="data:'+obj.type+';base64,' +obj.size+' style=margin:13px 5px">';
+                            //                 },
+                            //                 body:{
+                            //                     template:function(obj){
+                            //                         // return "<br><img style='height:80%' src='data:"+obj.type+";base64, "+obj.size+"'>";
+                            //                         return '<img style=height:80% src="data:'+obj.type+';base64,' +obj.size+' style=margin:13px 5px">';
+                            //                     },
+                            //                     type:{
+                            //                         width:255, height:180
+                            //                     },
+                            //                     data:images,
+                            //                 }
+                            //             }}, {}
+                            //     ]
+                            // },
 
                             { view: "label", label: "Дата создания"},
                             { view:"text", id:"creatTime", value:"Дата создания"},
@@ -106,3 +147,6 @@ define(['static/js/collections/categorys.js'], function(category) {
         ]
     }
 })
+function img(obj){
+    return '<img style=height:80%  src="data:'+obj.type+';base64,'+obj.size+'">';
+}
