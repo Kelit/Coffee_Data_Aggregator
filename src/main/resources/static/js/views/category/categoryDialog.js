@@ -1,4 +1,4 @@
-define(['static/js/component/dialogPage.js', 'static/js/collections/activity.js'], function(dialogPage, categorys) {
+define(['static/js/component/dialogPage.js', 'static/js/collections/categorys.js'], function(dialogPage, categorys) {
     return dialogPage(
         'modelDialog',
         'resource->/api/category',

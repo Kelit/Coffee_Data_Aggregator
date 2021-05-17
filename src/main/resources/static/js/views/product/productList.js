@@ -1,4 +1,4 @@
-define(['static/js/collections/categorys.js', 'static/js/collections/images.js'], function(category,images) {
+define(['static/js/collections/categorys.js', 'static/js/collections/images.js'], function(category, images) {
     return {
         rows:[
             {cols:[
@@ -9,16 +9,20 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                             { view: "label", label: "Категория"},
                             { view:"combo", id:"category", options: category},
 
+
                             { view: "label", label: "Цена"},
                             { view:"text", id:"price", value:"0", format:"1.111,00"},
 
                             { view: "label", label: "В наличии"},
                             { view:"text", id:"stock", value:"В наличии"},
 
+                            { view: "label", label: "Дата создания"},
+                            { view:"text", id:"creatTime", value:"Дата создания"},
+
+                            { view: "label", label: "Дата последнего обновления"},
+                            { view:"text", id:"updateTime", value:"Дата последнего обновления"},
                         ]},
                     {rows:[
-                            { view: "label", label: "Описание"},
-                            { view:"text", id:"description", value:"Описание"},
                             {
                                 view:"form",
                                 rows:[
@@ -40,55 +44,39 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                                         borderless:true
                                     },
                                     {
+                                        id:"image",
+                                        rows:[]
+                                    },
+                                    {
                                         view:"button",
                                         value:"Отправить",
                                         click:function(){
+                                            $$
                                             $$('uploader1').send();
+                                            webix.ui([
+                                                {
+
+                                                    view: "dataview",
+                                                    id: "imageList",
+                                                    css: "nav_list",
+                                                    yCount: 1,
+                                                    select: true,
+                                                    scroll: false,
+                                                    type: {
+                                                        width: 100,
+                                                        height: 65
+                                                    },
+                                                    template: img,
+                                                    data: images
+                                                },
+                                            ],$$("image"))
                                         }
-                                    }
+                                    },
+
                                 ]
                             },
-                            {
-
-                                view: "dataview",
-                                id: "imageList",
-                                css: "nav_list",
-                                yCount: 1,
-                                select: true,
-                                scroll: false,
-                                type: {
-                                    width: 100,
-                                    height: 65
-                                },
-                                template: img,
-                                data: images
-                            },
-                            // {
-                            //     view:"toolbar", elements:[
-                            //         { view:"richselect", value:1, height:180, width:300, options:{
-                            //                 view:"datasuggest",
-                            //                 template:function(obj){
-                            //                     return '<img src="data:'+obj.type+';base64,' +obj.size+' style=margin:13px 5px">';
-                            //                 },
-                            //                 body:{
-                            //                     template:function(obj){
-                            //                         // return "<br><img style='height:80%' src='data:"+obj.type+";base64, "+obj.size+"'>";
-                            //                         return '<img style=height:80% src="data:'+obj.type+';base64,' +obj.size+' style=margin:13px 5px">';
-                            //                     },
-                            //                     type:{
-                            //                         width:255, height:180
-                            //                     },
-                            //                     data:images,
-                            //                 }
-                            //             }}, {}
-                            //     ]
-                            // },
-
-                            { view: "label", label: "Дата создания"},
-                            { view:"text", id:"creatTime", value:"Дата создания"},
-
-                            { view: "label", label: "Дата последнего обновления"},
-                            { view:"text", id:"updateTime", value:"Дата последнего обновления"},
+                            { view: "label", label: "Описание"},
+                            { view:"text", id:"description", value:"Описание"},
                         ]},
 
                 ]},
@@ -99,7 +87,7 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                         'productPrice':$$('price').getValue(),
                         'productStock':$$('stock').getValue(),
                         'productDescription':$$('description').getValue(),
-                        'productIcon':$$('icon').getValue(),
+                        // 'productIcon':$$('icon').getValue(),
                         'createTime':$$('creatTime').getValue(),
                         'updateTime':$$('updateTime').getValue()
                     };
@@ -112,9 +100,8 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                 columns:[
                     {id:'name', editor:'text' },
                     {id:'category',
-                        editor:"select",
-                        value:'true',
-                        options:['true','false']
+                        editor:"combo",
+                        options: category,
                     },
                     {id:'productPrice', editor:'text'},
                     {id:'productStock', editor:'text'},

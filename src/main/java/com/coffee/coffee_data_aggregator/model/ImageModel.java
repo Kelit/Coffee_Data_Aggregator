@@ -16,6 +16,7 @@ public class ImageModel {
         this.picByte = picByte;
     }
 
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
