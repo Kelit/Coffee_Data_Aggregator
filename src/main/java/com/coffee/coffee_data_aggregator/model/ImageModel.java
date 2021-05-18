@@ -1,11 +1,19 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import javax.persistence.*;
 
-@Data
 @Entity
-public class ImageModel {
+@Data
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = ProductCategory.class,
+        resolver = EntityIdResolver.class,
+        property = "id"
+)
+public class ImageModel implements ComboListItem {
 
     public ImageModel() {
         super();

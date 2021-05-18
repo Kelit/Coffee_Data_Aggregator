@@ -1,5 +1,6 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -21,40 +22,10 @@ import java.util.Date;
         resolver = EntityIdResolver.class,
         property = "id"
 )
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ProductCategory implements ComboListItem {
         @Id
         @GeneratedValue(strategy = GenerationType.TABLE)//!!
         private Long id;
         private String name;
-    //    @Id
-//    @GeneratedValue
-//    private Integer categoryId;
-//
-//    private Integer id;
-//
-//    private String categoryName;
-//
-//    @NaturalId
-//    private Integer categoryType;
-//
-//    private Date createTime;
-//
-//    private Date updateTime;
-//
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-//
-//
-//    public ProductCategory() {
-//    }
-//
-//    public ProductCategory(String categoryName, Integer categoryType) {
-//        this.categoryName = categoryName;
-//        this.categoryType = categoryType;
-//    }
 }

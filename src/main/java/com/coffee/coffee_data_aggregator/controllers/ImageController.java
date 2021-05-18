@@ -12,7 +12,9 @@ import java.util.zip.Inflater;
 import com.coffee.coffee_data_aggregator.message.ResponseFile;
 import com.coffee.coffee_data_aggregator.message.ResponseMessage;
 import com.coffee.coffee_data_aggregator.model.ImageModel;
+import com.coffee.coffee_data_aggregator.model.ProductInfo;
 import com.coffee.coffee_data_aggregator.repository.ImageRepository;
+import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import com.coffee.coffee_data_aggregator.service.ImageStorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/image")
-public class ImageController {
+public class ImageController extends AbstractRestController<ImageModel, ImageRepository> {
 
     @Autowired
     ImageRepository imageRepository;
     @Autowired
     ImageStorageService imageStorageService;
+
+    public ImageController(ImageRepository repo) {
+        super(repo);
+    }
 
 
     @GetMapping("/files")
