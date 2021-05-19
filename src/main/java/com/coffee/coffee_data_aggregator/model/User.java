@@ -64,6 +64,16 @@ public class User implements ComboListItem, UserDetails {
         return isActive();
     }
 
+    @Override
+    public byte[] getFile() {
+        return new byte[0];
+    }
+
+    @Override
+    public String getType() {
+        return null;
+    }
+
 //    @ManyToOne
 //    @JsonIdentityReference
 //    @JsonSerialize(as=ComboListItem.class)

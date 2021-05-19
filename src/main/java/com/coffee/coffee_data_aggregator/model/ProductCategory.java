@@ -28,4 +28,14 @@ public class ProductCategory implements ComboListItem {
         @GeneratedValue(strategy = GenerationType.TABLE)//!!
         private Long id;
         private String name;
+
+        @Override
+        public byte[] getFile() {
+                return new byte[0];
+        }
+
+        @Override
+        public String getType() {
+                return null;
+        }
 }

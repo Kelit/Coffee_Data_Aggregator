@@ -2,6 +2,22 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
     return {
         rows:[
             {cols:[
+                    // {
+                    //     view:"form",
+                    //     width:600,
+                    //     id:"form1",
+                    //     elements:[
+                    //         {	view:"text", name:"title", value:"New movie",inputWidth:200},
+                    //         {	view:"text", name:"year", value:"2012", inputWidth:200},
+                    //         {cols:[
+                    //                 { view:"button", value:"Add", click:addData},
+                    //                 { view:"button", value:"Remove selected", click:removeData},
+                    //                 { view:"button", value:"Remove all items", click:function(){
+                    //                         $$('data').clearAll();
+                    //                     }}
+                    //             ]}
+                    //     ]
+                    // },
                     {rows:[
                             { view: "label", label: "Наименование товара"},
                             { view:"text", id:"name", value:"Товар"},
@@ -100,61 +116,49 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                 container:"data",
                 select:1,
                 css: "movies",
+                autowidth: true,
+                editable:true,
+                editor:"text",
+                editValue:"item",
                 type:{
-                    width: 300,
-                    height: 300,
-                    template:"<div class='overall'>" +
-                             "<div class='name'>Продукт: #name#</div>" +
-                             "<div class='category'>Категория товара: #category.name#</div> " +
-                             "<div class='productStock'>В наличии: #productStock#</div>" +
-                             "<div class='productPrice'>Цена: #productPrice#</div> " +
-                             "<div class='productDescription'>Описание: #productDescription#</div> " +
-                             "<div class='createTime'>Товар добавлен: #createTime#</div> " +
-                             "<div class='updateTime'>Дата последнего обновления: #updateTime#</div> " +
-                             "<div class='productIcon'><img width='100' height='100'  src='data:+image/png;base64,#productIcon#'></div>" +
+                    width: 500,
+                    height: 250,
+                    template:"<style>" +
+                                ".overall {" +
+                                    "display: flex;" +
+                                "}" +
+                                ".inermod {"+
+                                    "flex-direction: row;" +
+                                "}"+
+                                ".item {" +
+                                    "flex: flex-end" +
+                                "}"+
+                                "#container {" +
+                                    "flex-direction: row;" +
+                                "}"+
+                            "</style>" +
+                            "<div class='overall'>" +
+                                    "<div class='inermod'>"+
+                                        "<div class='webixlabel item'>Продукт: #name#</div>" +
+                                        "<div class='webixlabel'>Категория товара: #category.name#</div> " +
+                                        "<div class='webixlabel'>В наличии: #productStock#</div>" +
+                                        "<div class='webixlabel'>Цена: #productPrice#</div> " +
+                                        "<div class='webixlabel'>Описание: #productDescription#</div> " +
+                                        "<div class='webixlabel'>Товар добавлен: #createTime#</div> " +
+                                        "<div class='webixlabel'>Дата последнего обновления: #updateTime#</div> " +
+                                    "</div>"+
+                                "<div class='webixtype_image' id='container'><img width='200' height='200'  src='data:#productIcon.type#;base64, #productIcon.file#'></div>" +
                              "</div>"
+
                 },
-                // url:'resource->/api/product',
-                // save:'resource->/api/product',
-                data: new webix.DataCollection({ url: '/api/product/list_product' })
+                url:'resource->/api/product',
+                save:'resource->/api/product',
+                onClick:{
+                    "wxi-trash":function(event, id, node){
+                        this.remove(id)
+                    }
+                }
             },
-            // {
-            //     id:"tableID",
-            //     view:"datatable",
-            //     columns:[
-            //         {id:'name', editor:'text' },
-            //         {id:'category',
-            //             editor:"combo",
-            //             options: category,
-            //         },
-            //         {id:'productPrice', editor:'text'},
-            //         {id:'productStock', editor:'text'},
-            //         {id:'productDescription', editor:'text'},
-            //         {id:'productIcon', editor:'text'},
-            //         {id:'createTime', editor:'text'},
-            //         {id:'updateTime', editor:'text'},
-            //         { id:"trash", header:"", template:"{common.trashIcon()}"}
-            //     ],
-            //     url:'resource->/api/product',
-            //     save:'resource->/api/product',
-            //     autoheight: true,
-            //     autowidth: true,
-            //     editable: true,
-            //     pager: "tableID" + 'Pager',
-            //     datafetch: 15,
-            //     onClick:{
-            //         "wxi-trash":function(event, id, node){
-            //             this.remove(id)
-            //         }
-            //     }
-            // },
-            // {
-            //     view: 'pager',
-            //     id: "tableID" + 'Pager',
-            //     size: 15,
-            //     group: 15,
-            //     template: '{common.first()}{common.prev()}{common.pages()}{common.next()}{common.last()}'
-            // }
         ]
     }
 })

@@ -42,4 +42,13 @@ public class ProductInfo implements ComboListItem {
     @UpdateTimestamp
     private Date updateTime;
 
+    @Override
+    public byte[] getFile() {
+        return new byte[0];
+    }
+
+    @Override
+    public String getType() {
+        return null;
+    }
 }

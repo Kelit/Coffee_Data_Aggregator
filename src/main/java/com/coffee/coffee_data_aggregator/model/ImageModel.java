@@ -24,6 +24,11 @@ public class ImageModel implements ComboListItem {
         this.picByte = picByte;
     }
 
+//    @Override
+//    public String getName(){
+//        return String.valueOf(picByte);
+//    }
+
 
     @Id
     @Column(name = "id")
@@ -35,4 +40,12 @@ public class ImageModel implements ComboListItem {
     private String type;
     @Lob
     private byte[] picByte;
+
+
+    @Override
+    public byte[] getFile() {
+//        return new StringBuilder().append("data:"+type+";base64,").append(getPicByte());
+        return getPicByte();
+    }
+
 }
