@@ -11,10 +11,9 @@ import java.util.zip.Inflater;
 
 import com.coffee.coffee_data_aggregator.message.ResponseFile;
 import com.coffee.coffee_data_aggregator.message.ResponseMessage;
+import com.coffee.coffee_data_aggregator.message.ResponseProduct;
 import com.coffee.coffee_data_aggregator.model.ImageModel;
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
 import com.coffee.coffee_data_aggregator.repository.ImageRepository;
-import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import com.coffee.coffee_data_aggregator.service.ImageStorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/image")
@@ -69,26 +67,54 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
     }
 
-    @GetMapping(path = { "/get/{imageName}" })
-    public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
+    @GetMapping(path = { "/get/{name}" })
+    public @ResponseBody List<ResponseFile> getImage(@PathVariable("name") String name) throws IOException {
 
-        final Optional<ImageModel> retrievedImage = imageRepository.findByName(imageName);
-
-        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
-                retrievedImage.get().getPicByte());
-
-        return img;
-    }
-
-    @GetMapping("/getbyid/{id}")
-    public Optional<ImageModel> getImageById(@PathVariable("id") Long id) throws Exception{
-
-        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
+        List<ResponseFile> retrievedImage = imageRepository.findByName(name).stream().map(
+                dbFile -> new ResponseFile(
+                        String.valueOf(dbFile.getId()),
+                        dbFile.getName(),
+                        dbFile.getType(),
+                        dbFile.getPicByte())
+        ).collect(Collectors.toList());
 
 //        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
 //                retrievedImage.get().getPicByte());
 
         return retrievedImage;
+    }
+
+//    @GetMapping("/getbyid/{id}")
+//    public Optional<ImageModel> getImageById(@PathVariable("id") Long id) throws Exception{
+//
+//        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
+//
+////        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+////                retrievedImage.get().getPicByte());
+//
+//        return retrievedImage;
+//    }
+
+    @GetMapping("/getbyid/{id}")
+    public @ResponseBody List<ResponseFile> getImageById(@PathVariable("id") Long id) throws Exception{
+
+        List<ResponseFile> file =imageStorageService.getFile(id).stream().map(
+                dbFile -> new ResponseFile(
+                        String.valueOf(dbFile.getId()),
+                        dbFile.getName(),
+                        dbFile.getType(),
+                        dbFile.getFile()
+                )
+        ).collect(Collectors.toList());
+
+
+        return file;
+//        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
+//
+////        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+////                retrievedImage.get().getPicByte());
+//
+//        return retrievedImage;
     }
 
 
