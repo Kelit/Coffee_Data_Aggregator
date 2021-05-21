@@ -67,21 +67,26 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
     }
 
-    @GetMapping(path = { "/get/{name}" })
-    public @ResponseBody List<ResponseFile> getImage(@PathVariable("name") String name) throws IOException {
+//    @GetMapping(path = { "/get/{name}" })
+    @PostMapping(path = { "/get/{name}" })
+    public @ResponseBody ResponseFile getImage(@PathVariable("name") String name) throws IOException {
 
-        List<ResponseFile> retrievedImage = imageRepository.findByName(name).stream().map(
-                dbFile -> new ResponseFile(
-                        String.valueOf(dbFile.getId()),
-                        dbFile.getName(),
-                        dbFile.getType(),
-                        dbFile.getPicByte())
-        ).collect(Collectors.toList());
+//        List<ResponseFile> retrievedImage = imageRepository.findByName(name).stream().map(
+//                dbFile -> new ResponseFile(
+//                        String.valueOf(dbFile.getId()),
+//                        dbFile.getName(),
+//                        dbFile.getType(),
+//                        dbFile.getPicByte())
+//        ).collect(Collectors.toList());
+
+        ImageModel img = imageRepository.findByName(name);
+        ResponseFile response = new ResponseFile(String.valueOf(img.getId()),img.getName(),img.getType(),img.getPicByte());
 
 //        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
 //                retrievedImage.get().getPicByte());
 
-        return retrievedImage;
+//        return retrievedImage;
+        return response;
     }
 
 //    @GetMapping("/getbyid/{id}")

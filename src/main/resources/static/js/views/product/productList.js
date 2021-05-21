@@ -32,10 +32,7 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                                             { view:"text", name:"updateTimeP", value:"Дата последнего обновления"},
                                         ]},
                                     {rows:[
-                                            // {
-                                            //     view:"form",
-                                            //     rows:[
-                                                    {
+                                           {
                                                         view:"uploader",
                                                         id: "uploader1",
                                                         name:"uploadP",
@@ -81,11 +78,8 @@ define(['static/js/collections/categorys.js', 'static/js/collections/images.js']
                                                             ],$$("image"))
                                                         }
                                                     },
-
-                                            //     ]
-                                            // },
-                                            { view: "label", label: "Описание"},
-                                            { view:"text", id:"descriptionP", value:"Описание"},
+                                           { view: "label", label: "Описание"},
+                                           { view:"text", id:"descriptionP", value:"Описание"},
                                         ]},
                                 ]},
                             {cols:[
@@ -156,11 +150,17 @@ function img(obj){
 }
 function addData(){
     var values = $$("form1").getValues();
-    webix.ajax().get("/api/image/get/"+values.file).then(function(data){
-        // // fileProd.type = data.file.type;
-        // // fileProd.file = data.file.size;
-        // webix.alert(file.type);
-        // webix.alert(file.file);
+    // webix.ajax().get("/api/image/get/"+values.file).then(function(data){
+    //     webix.alert("!!!");
+    //     webix.alert(data.json());
+    //
+    //     // console.log(data);
+    //     // fileProd.file = data.file.size;
+    //     // webix.alert(file.type);
+    //     // webix.alert(file.file);
+    // });
+    webix.ajax().post('/api/image/get/'+values.file).then(function(text){
+        webix.message(text.json().score);
     });
     $$("data").add({
         name:values.nameT,

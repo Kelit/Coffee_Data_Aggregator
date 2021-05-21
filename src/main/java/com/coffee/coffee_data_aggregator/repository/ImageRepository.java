@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ImageRepository extends JpaRepository<ImageModel, Long> {
-    Optional<ImageModel> findByName(String name);
+    ImageModel findByName(String name);
 
     Optional<ImageModel> findById(Long id);
 }
