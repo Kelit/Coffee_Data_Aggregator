@@ -16,17 +16,9 @@ import java.util.stream.Stream;
 public class ProductStorageService {
     @Autowired
     private ProductRepository productInfoRepo;
-
-    public ProductInfo store(ProductInfo pI) throws Exception{
-        if(pI == null) return null;
-        return productInfoRepo.save(pI);
-    }
-
+    public ProductInfo store(ProductInfo pI){ return productInfoRepo.save(pI); }
     public Optional<ProductInfo> getFile(Long id) {
         return productInfoRepo.findById(id);
     }
-
-    public Stream<ProductInfo> getAllFiles() {
-        return productInfoRepo.findAll().stream();
-    }
+    public Stream<ProductInfo> getAllFiles() { return productInfoRepo.findAll().stream(); }
 }

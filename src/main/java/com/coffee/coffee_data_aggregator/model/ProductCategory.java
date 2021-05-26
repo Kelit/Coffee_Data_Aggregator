@@ -30,12 +30,7 @@ public class ProductCategory implements ComboListItem {
         private String name;
 
         @Override
-        public byte[] getFile() {
-                return new byte[0];
-        }
-
+        public byte[] getFile() {return new byte[0]; }
         @Override
-        public String getType() {
-                return null;
-        }
+        public String getType() {return null;}
 }

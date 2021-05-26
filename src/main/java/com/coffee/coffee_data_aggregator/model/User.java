@@ -35,52 +35,34 @@ public class User implements ComboListItem, UserDetails {
     public  boolean isActive(){ return active;}
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+    public Collection<? extends GrantedAuthority> getAuthorities() {return null; }
 
     @Override
-    public String getUsername() {
-        return getName();
-    }
-
+    public String getUsername() { return getName(); }
     @Override
     public boolean isAccountNonExpired() {
         return isActive();
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return isActive();
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return isActive();
     }
-
     @Override
     public boolean isEnabled() {
         return isActive();
     }
-
     @Override
-    public byte[] getFile() {
-        return new byte[0];
-    }
-
+    public byte[] getFile() { return new byte[0]; }
     @Override
-    public String getType() {
-        return null;
-    }
+    public String getType() { return null; }
 
-//    @ManyToOne
-//    @JsonIdentityReference
-//    @JsonSerialize(as=ComboListItem.class)
-//    private ProductCategory category;
 
-//    @ManyToOne
-//    @JsonIdentityReference
-//    @JsonSerialize(as=ComboListItem.class)
-//    private SCart cart;
+    @ManyToOne
+    @JsonIdentityReference
+    @JsonSerialize(as=ComboListItem.class)
+    private SCart cart;
 }
