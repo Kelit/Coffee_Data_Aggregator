@@ -24,12 +24,6 @@ public class ImageModel implements ComboListItem {
         this.picByte = picByte;
     }
 
-//    @Override
-//    public String getName(){
-//        return String.valueOf(picByte);
-//    }
-
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +35,8 @@ public class ImageModel implements ComboListItem {
     @Lob
     private byte[] picByte;
 
-
     @Override
-    public byte[] getFile() {
-//        return new StringBuilder().append("data:"+type+";base64,").append(getPicByte());
+    public byte[] getFile() {;
         return getPicByte();
     }
 

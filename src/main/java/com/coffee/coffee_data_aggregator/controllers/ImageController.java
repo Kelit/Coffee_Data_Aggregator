@@ -16,12 +16,13 @@ import com.coffee.coffee_data_aggregator.model.ImageModel;
 import com.coffee.coffee_data_aggregator.repository.ImageRepository;
 import com.coffee.coffee_data_aggregator.service.ImageStorageService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/image")
 public class ImageController extends AbstractRestController<ImageModel, ImageRepository> {
@@ -37,89 +38,50 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
 
 
     @GetMapping("/files")
-    public ResponseEntity<List<ResponseFile>> getListFiles() {
-        List<ResponseFile> files = imageStorageService.getAllFiles().map(dbFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path("/files/")
-//                    .path(dbFile.getId().toString())
-//                    .toUriString();
+    public @ResponseBody List<ResponseFile> getListFiles() {
+        List<ResponseFile> files = imageStorageService.getAllFiles().map(dbFile -> new ResponseFile(
+                String.valueOf(dbFile.getId()),
+                dbFile.getName(),
+                dbFile.getType(),
+                dbFile.getPicByte())).collect(Collectors.toList());
 
-            return new ResponseFile(
-                    String.valueOf(dbFile.getId()),
-                    dbFile.getName(),
-                    dbFile.getType(),
-                    dbFile.getPicByte());
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(files);
+        return files;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uplaodImage(@RequestParam("upload") MultipartFile file) throws Exception {
-        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+    public @ResponseBody ResponseMessage uplaodImage(@RequestParam("upload") MultipartFile file) throws Exception {
         String message = "";
-//        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
-//                compressBytes(file.getBytes()));
-
-        imageStorageService.store(file);
+        if(file.isEmpty()) {message = "File is empty";  return new ResponseMessage(message);}
+        try{
+            ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+            imageStorageService.store(img);
+        }
+        catch (Exception ex){
+            log.info(ex.getMessage());
+            message = "file not upload";
+            return  new ResponseMessage(message);
+        }
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        return new ResponseMessage(message);
     }
 
 //    @GetMapping(path = { "/get/{name}" })
     @PostMapping(path = { "/get/{name}" })
     public @ResponseBody ResponseFile getImage(@PathVariable("name") String name) throws IOException {
-
-//        List<ResponseFile> retrievedImage = imageRepository.findByName(name).stream().map(
-//                dbFile -> new ResponseFile(
-//                        String.valueOf(dbFile.getId()),
-//                        dbFile.getName(),
-//                        dbFile.getType(),
-//                        dbFile.getPicByte())
-//        ).collect(Collectors.toList());
-
-        ImageModel img = imageRepository.findByName(name);
-        ResponseFile response = new ResponseFile(String.valueOf(img.getId()),img.getName(),img.getType(),img.getPicByte());
-
-//        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
-//                retrievedImage.get().getPicByte());
-
-//        return retrievedImage;
-        return response;
+        return imageStorageService.getName(name).map(file -> new ResponseFile(
+                String.valueOf(file.getId()),
+                file.getName(),
+                file.getType(),
+                file.getPicByte())).get();
     }
 
-//    @GetMapping("/getbyid/{id}")
-//    public Optional<ImageModel> getImageById(@PathVariable("id") Long id) throws Exception{
-//
-//        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
-//
-////        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
-////                retrievedImage.get().getPicByte());
-//
-//        return retrievedImage;
-//    }
-
     @GetMapping("/getbyid/{id}")
-    public @ResponseBody List<ResponseFile> getImageById(@PathVariable("id") Long id) throws Exception{
-
-        List<ResponseFile> file =imageStorageService.getFile(id).stream().map(
-                dbFile -> new ResponseFile(
-                        String.valueOf(dbFile.getId()),
-                        dbFile.getName(),
-                        dbFile.getType(),
-                        dbFile.getFile()
-                )
-        ).collect(Collectors.toList());
-
-
-        return file;
-//        final Optional<ImageModel> retrievedImage = imageStorageService.getFile(id);
-//
-////        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
-////                retrievedImage.get().getPicByte());
-//
-//        return retrievedImage;
+    public @ResponseBody ResponseFile getImageById(@PathVariable("id") Long id) throws Exception{
+        return imageStorageService.getFile(id).map(file -> new ResponseFile(
+                String.valueOf(file.getId()),
+                file.getName(),
+                file.getType(),
+                file.getPicByte())).get();
     }
 
 
