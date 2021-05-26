@@ -1,8 +1,6 @@
 package com.coffee.coffee_data_aggregator.controllers;
 import com.coffee.coffee_data_aggregator.model.ProductCategory;
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
 import com.coffee.coffee_data_aggregator.repository.CategoryRepository;
-import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

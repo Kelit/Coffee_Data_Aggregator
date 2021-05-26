@@ -1,13 +1,9 @@
 package com.coffee.coffee_data_aggregator.service;
 
-import com.coffee.coffee_data_aggregator.model.ImageModel;
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
-import com.coffee.coffee_data_aggregator.repository.ImageRepository;
+import com.coffee.coffee_data_aggregator.model.Product;
 import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,9 +12,9 @@ import java.util.stream.Stream;
 public class ProductStorageService {
     @Autowired
     private ProductRepository productInfoRepo;
-    public ProductInfo store(ProductInfo pI){ return productInfoRepo.save(pI); }
-    public Optional<ProductInfo> getFile(Long id) {
+    public Product store(Product pI){ return productInfoRepo.save(pI); }
+    public Optional<Product> getFile(Long id) {
         return productInfoRepo.findById(id);
     }
-    public Stream<ProductInfo> getAllFiles() { return productInfoRepo.findAll().stream(); }
+    public Stream<Product> getAllFiles() { return productInfoRepo.findAll().stream(); }
 }

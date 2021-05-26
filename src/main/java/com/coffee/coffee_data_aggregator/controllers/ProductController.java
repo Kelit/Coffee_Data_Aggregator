@@ -1,23 +1,18 @@
 package com.coffee.coffee_data_aggregator.controllers;
 
 import com.coffee.coffee_data_aggregator.message.ResponseProduct;
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
+import com.coffee.coffee_data_aggregator.model.Product;
 import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import com.coffee.coffee_data_aggregator.service.ProductStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/product")
-public class ProductController extends AbstractRestController<ProductInfo, ProductRepository> {
+public class ProductController extends AbstractRestController<Product, ProductRepository> {
     public ProductController(ProductRepository repo) { super(repo); }
 
     @Autowired

@@ -14,7 +14,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class ProductInfo implements ComboListItem {
+@Table(name = "product")
+public class Product implements ComboListItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,9 +28,7 @@ public class ProductInfo implements ComboListItem {
     private ProductCategory category;
 
     private BigDecimal productPrice;
-    @NotNull
-    @Min(0)
-    private Integer productStock;
+
     private String productDescription;
 
     @ManyToOne
@@ -37,10 +36,11 @@ public class ProductInfo implements ComboListItem {
     @JsonSerialize(as=ComboListItem.class)
     private ImageModel productIcon;
 
+    @Lob
+    private byte[] icon;
+
     @CreationTimestamp
     private Date createTime;
-    @UpdateTimestamp
-    private Date updateTime;
 
     @Override
     public byte[] getFile() {

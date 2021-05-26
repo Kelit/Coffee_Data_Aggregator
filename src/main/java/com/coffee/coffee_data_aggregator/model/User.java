@@ -21,16 +21,22 @@ import java.util.Collection;
 
 @Entity
 @Data
+@Table(name = "user")
 public class User implements ComboListItem, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String lastName;
+    private String username;
     private String email;
     private String password;
     private String phone;
     private Boolean active;
-    private String role = "ROLE_CUSTOMER";
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     public  boolean isActive(){ return active;}
 
@@ -60,9 +66,4 @@ public class User implements ComboListItem, UserDetails {
     @Override
     public String getType() { return null; }
 
-
-    @ManyToOne
-    @JsonIdentityReference
-    @JsonSerialize(as=ComboListItem.class)
-    private SCart cart;
 }

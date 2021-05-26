@@ -36,7 +36,6 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
         super(repo);
     }
 
-
     @GetMapping("/files")
     public @ResponseBody List<ResponseFile> getListFiles() {
         List<ResponseFile> files = imageStorageService.getAllFiles().map(dbFile -> new ResponseFile(
@@ -74,7 +73,6 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
                 file.getType(),
                 file.getPicByte())).get();
     }
-
     @GetMapping("/getbyid/{id}")
     public @ResponseBody ResponseFile getImageById(@PathVariable("id") Long id) throws Exception{
         return imageStorageService.getFile(id).map(file -> new ResponseFile(
@@ -83,8 +81,6 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
                 file.getType(),
                 file.getPicByte())).get();
     }
-
-
 
     // compress the image bytes before storing it in the database
     public static byte[] compressBytes(byte[] data) {
@@ -121,6 +117,4 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
         }
         return outputStream.toByteArray();
     }
-
-
 }
