@@ -1,18 +1,16 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
+import com.coffee.coffee_data_aggregator.util.EntityIdResolver;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Data
@@ -23,14 +21,9 @@ import java.util.Date;
         property = "id"
 )
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ProductCategory implements ComboListItem {
+public class ProductCategory{
         @Id
         @GeneratedValue(strategy = GenerationType.TABLE)//!!
         private Long id;
         private String name;
-
-        @Override
-        public byte[] getFile() {return new byte[0]; }
-        @Override
-        public String getType() {return null;}
 }

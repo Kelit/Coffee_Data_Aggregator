@@ -1,4 +1,4 @@
-package com.coffee.coffee_data_aggregator.model;
+package com.coffee.coffee_data_aggregator.util;
 
 import javax.persistence.Embeddable;
 

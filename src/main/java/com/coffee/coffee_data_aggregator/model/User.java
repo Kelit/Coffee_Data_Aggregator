@@ -1,30 +1,25 @@
 package com.coffee.coffee_data_aggregator.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
 import lombok.Data;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "user")
-public class User implements ComboListItem, UserDetails {
+@Table(name = "user_table")
+@NoArgsConstructor
+public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String lastName;
@@ -34,15 +29,17 @@ public class User implements ComboListItem, UserDetails {
     private String phone;
     private Boolean active;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private Role role;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Order> order;
+
 
     public  boolean isActive(){ return active;}
-
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {return null; }
-
+    public Collection<? extends GrantedAuthority> getAuthorities() {return (Collection<? extends GrantedAuthority>) getRole(); }
     @Override
     public String getUsername() { return getName(); }
     @Override
@@ -61,9 +58,4 @@ public class User implements ComboListItem, UserDetails {
     public boolean isEnabled() {
         return isActive();
     }
-    @Override
-    public byte[] getFile() { return new byte[0]; }
-    @Override
-    public String getType() { return null; }
-
 }

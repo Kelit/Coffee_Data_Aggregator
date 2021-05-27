@@ -1,5 +1,7 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
+import com.coffee.coffee_data_aggregator.util.EntityIdResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -41,3 +43,4 @@ public class ImageModel implements ComboListItem {
     }
 
 }
+*/

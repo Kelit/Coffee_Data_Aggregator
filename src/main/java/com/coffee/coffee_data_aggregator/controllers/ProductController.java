@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.controllers;
-
+/*
 import com.coffee.coffee_data_aggregator.message.ResponseProduct;
 import com.coffee.coffee_data_aggregator.model.Product;
 import com.coffee.coffee_data_aggregator.repository.ProductRepository;
@@ -25,11 +25,9 @@ public class ProductController extends AbstractRestController<Product, ProductRe
                         String.valueOf(dbProduct.getId()),
                         dbProduct.getName(),
                         dbProduct.getCategory().getName(),
-                        String.valueOf(dbProduct.getProductStock()),
                         String.valueOf(dbProduct.getProductPrice()),
                         dbProduct.getProductDescription(),
                         String.valueOf(dbProduct.getCreateTime()),
-                        String.valueOf(dbProduct.getUpdateTime()),
                         dbProduct.getProductIcon().getPicByte())
                 ).collect(Collectors.toList());
 
@@ -37,3 +35,4 @@ public class ProductController extends AbstractRestController<Product, ProductRe
     }
 
 }
+*/

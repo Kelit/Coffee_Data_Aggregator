@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.controllers;
-
+/*
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -118,3 +118,4 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
         return outputStream.toByteArray();
     }
 }
+*/

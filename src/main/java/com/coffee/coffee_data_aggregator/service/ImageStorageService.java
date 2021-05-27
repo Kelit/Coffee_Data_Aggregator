@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.service;
-
+/*
 import com.coffee.coffee_data_aggregator.model.ImageModel;
 import com.coffee.coffee_data_aggregator.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,3 +20,4 @@ public class ImageStorageService {
     public Stream<ImageModel> getAllFiles() { return imageRepo.findAll().stream(); }
     public Optional<ImageModel> getName(String name) { return imageRepo.findByName(name); }
 }
+*/

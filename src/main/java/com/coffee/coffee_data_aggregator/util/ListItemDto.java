@@ -1,4 +1,4 @@
-package com.coffee.coffee_data_aggregator.controllers;
+package com.coffee.coffee_data_aggregator.util;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

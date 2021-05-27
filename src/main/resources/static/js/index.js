@@ -28,7 +28,7 @@ function buildButton(label, route) {
 var menu_button  = [
         buildButton('Home', ''),
         buildButton('Пользователи', 'users'),
-        buildButton('Товары', 'products'),
+        // buildButton('Товары', 'products'),
         // buildButton('Категории', 'category'),
         {id: "demo", icon: "mdi mdi-book", value:"Documentation"}
 ];
@@ -51,7 +51,7 @@ require(
     [
         'static/js/views/main.js',
         'static/js/views/user/userList.js',
-        'static/js/views/product/productList.js',
+        // 'static/js/views/product/productList.js',
         // 'static/js/views/category/categoryList.js',
         'util/resourceProxy',
     ],
@@ -67,7 +67,7 @@ require(
         routie({
             '': buildRoute(main),
             'users': buildRoute(users),
-            'products': buildRoute(products),
+            // 'products': buildRoute(products),
             // 'category': buildRoute(categories),
             // 'marks': buildRoute(marks)
         })

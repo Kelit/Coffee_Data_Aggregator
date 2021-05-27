@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.service;
-
+/*
 import com.coffee.coffee_data_aggregator.model.Product;
 import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,4 +17,11 @@ public class ProductStorageService {
         return productInfoRepo.findById(id);
     }
     public Stream<Product> getAllFiles() { return productInfoRepo.findAll().stream(); }
+
+    public Iterable<Product> getAllProduct(){
+        return productInfoRepo.findAll();
+    }
+
+
 }
+*/

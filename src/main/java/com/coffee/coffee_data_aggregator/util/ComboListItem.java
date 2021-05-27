@@ -1,4 +1,4 @@
-package com.coffee.coffee_data_aggregator.model;
+package com.coffee.coffee_data_aggregator.util;
 public interface ComboListItem {
     Long getId();
 

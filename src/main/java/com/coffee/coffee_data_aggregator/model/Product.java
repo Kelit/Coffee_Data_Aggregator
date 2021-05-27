@@ -1,12 +1,10 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,41 +12,32 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "product")
-public class Product implements ComboListItem {
+@Table(name = "product_table")
+public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     @ManyToOne
     @JsonIdentityReference
-    @JsonSerialize(as=ComboListItem.class)
     private ProductCategory category;
 
-    private BigDecimal productPrice;
+    private double productPrice;
 
     private String productDescription;
 
-    @ManyToOne
-    @JsonIdentityReference
-    @JsonSerialize(as=ComboListItem.class)
-    private ImageModel productIcon;
+//    @ManyToOne
+//    @JsonIdentityReference
+//    @JsonSerialize(as=ComboListItem.class)
+//    private ImageModel productIcon;
 
     @Lob
     private byte[] icon;
+    private String typeIcon;
 
     @CreationTimestamp
     private Date createTime;
 
-    @Override
-    public byte[] getFile() {
-        return new byte[0];
-    }
-
-    @Override
-    public String getType() {
-        return null;
-    }
 }

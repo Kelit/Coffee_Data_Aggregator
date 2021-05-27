@@ -1,6 +1,7 @@
 package com.coffee.coffee_data_aggregator.controllers;
-import com.coffee.coffee_data_aggregator.model.ComboListItem;
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
 
+import com.coffee.coffee_data_aggregator.util.ListItemDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
