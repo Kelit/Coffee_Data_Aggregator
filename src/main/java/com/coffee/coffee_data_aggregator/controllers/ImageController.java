@@ -75,7 +75,7 @@ public class ImageController extends AbstractRestController<ImageModel, ImageRep
     }
     @GetMapping("/getbyid/{id}")
     public @ResponseBody ResponseFile getImageById(@PathVariable("id") Long id) throws Exception{
-        return imageStorageService.getFile(id).map(file -> new ResponseFile(
+        return imageStorageService.getFile(id).map(file -> new Res~ponseFile(
                 String.valueOf(file.getId()),
                 file.getName(),
                 file.getType(),

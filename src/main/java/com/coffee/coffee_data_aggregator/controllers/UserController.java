@@ -34,6 +34,7 @@ public class UserController {
                                    str.getName(),
                                    str.getLastName(),
                                    str.getPhone(),
+                                   str.getPassword(),
                                    String.valueOf(str.getActive())
                 )).collect(Collectors.toList());
     }
@@ -44,10 +45,18 @@ public class UserController {
 //    @GetMapping("{id}")
 //    public T getOne(@PathVariable("id") T obj) { return obj; }
     @PostMapping
-    public @ResponseBody String add(@Valid @RequestBody User user) {
-
-        userService.saveUser(user,"USER_ROLE");
-        return "User save";
+    public @ResponseBody String add(@RequestBody ResponseUser user) {
+        User usr = Stream.of(user).map( srt -> new User(
+            user.getName(),
+            user.getLastname(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getPhone(),
+            user.getActive()
+        )).findFirst().get();
+        userService.addUser(usr);
+        return "user save";
     }
 
 //    @PutMapping("{id}")

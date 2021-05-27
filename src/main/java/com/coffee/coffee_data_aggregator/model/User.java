@@ -19,8 +19,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
     private String lastName;
     private String username;
@@ -32,9 +34,21 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Role role;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Order> order;
+
+    public User(String name, String lastname,
+                String username, String email,
+                String password, String phone,
+                String active) {
+        this.name = name;
+        this.lastName = lastname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.active = Boolean.valueOf(active);
+    }
 
 
     public  boolean isActive(){ return active;}

@@ -13,16 +13,19 @@ public class ResponseUser implements Serializable {
     private String name;
     private String lastname;
     private String phone;
+    private String password;
     private String active;
 
     public ResponseUser(String id, String username, String email,
-                        String name, String lastname, String phone, String active){
+                        String name, String lastname, String phone,
+                        String password, String active){
             this.id = id;
             this.username = username;
             this.email = email;
             this.name = name;
             this.lastname = lastname;
             this.phone = phone;
+            this.password = password;
             this.active  = active;
     }
 }
