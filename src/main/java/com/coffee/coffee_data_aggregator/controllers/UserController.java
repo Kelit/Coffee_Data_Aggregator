@@ -2,18 +2,14 @@ package com.coffee.coffee_data_aggregator.controllers;
 
 import com.coffee.coffee_data_aggregator.message.ResponseUser;
 import com.coffee.coffee_data_aggregator.model.User;
-import com.coffee.coffee_data_aggregator.repository.UserRepository;
 import com.coffee.coffee_data_aggregator.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,7 +28,7 @@ public class UserController {
                                    str.getUsername(),
                                    str.getEmail(),
                                    str.getName(),
-                                   str.getLastName(),
+                                   str.getLastname(),
                                    str.getPhone(),
                                    str.getPassword(),
                                    String.valueOf(str.getActive())
@@ -42,8 +38,9 @@ public class UserController {
     @GetMapping
     public Page<User> list(@PageableDefault Pageable pageable) { return userService.findAll(pageable); }
 
-//    @GetMapping("{id}")
-//    public T getOne(@PathVariable("id") T obj) { return obj; }
+    @GetMapping("{id}")
+    public User getOne(@PathVariable("id") Long obj) { return userService.findById(obj); }
+
     @PostMapping
     public @ResponseBody String add(@RequestBody ResponseUser user) {
         User usr = Stream.of(user).map( srt -> new User(
@@ -64,7 +61,25 @@ public class UserController {
 //        BeanUtils.copyProperties(obj, dbObj, "id");
 //        return repo.save(dbObj);
 //    }
-//
-//    @DeleteMapping("{id}")
-//    public void delete(@PathVariable("id") T dbObj) { repo.delete(dbObj); }
+    @PutMapping("{id}")
+    public @ResponseBody String update(@PathVariable("id") Long dbObj, @RequestBody ResponseUser user) {
+        User usr = userService.findById(dbObj);
+        User obj = Stream.of(user).map( srt -> new User(
+                user.getName(),
+                user.getLastname(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhone(),
+                user.getActive()
+        )).findFirst().get();
+        BeanUtils.copyProperties(obj, usr, "id");
+        userService.saveUser(usr);
+        return "user update";
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long dbObj) {
+        userService.deleteUser(dbObj);
+    }
 }

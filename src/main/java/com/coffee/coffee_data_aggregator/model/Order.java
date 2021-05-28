@@ -27,15 +27,8 @@ public class Order {
 
     @ManyToOne
     private User user;
-
-
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "pk.order")
-    @Valid
-    private List<OrderProduct> orderProducts = new ArrayList<>();
-
-
-
-
+//    @JsonManagedReference
+//    @OneToMany(mappedBy = "pk.order")
+//    @Valid
+//    private List<OrderProduct> orderProducts = new ArrayList<>();
 }

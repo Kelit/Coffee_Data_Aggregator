@@ -1,34 +1,32 @@
 package com.coffee.coffee_data_aggregator.service;
 
 import com.coffee.coffee_data_aggregator.model.User;
-import com.coffee.coffee_data_aggregator.repository.RoleRepository;
 import com.coffee.coffee_data_aggregator.repository.UserRepository;
+import com.coffee.coffee_data_aggregator.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private UserRoleRepository userRoleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private String user_role = "USER_ROLE";
+    private String user_role = "USER";
 
     @Transactional
-    public void deletUser(Long id){
+    public void deleteUser(Long id){
         if(id == null || id == 0) return;
         User user = userRepository.findById(id).get();
 
@@ -36,13 +34,10 @@ public class UserService {
         userRepository.delete(user);
     }
     @Transactional
-    public boolean addUser(User user){
-        User userFromDb = userRepository.findByUsername(user.getUsername());
-        if(userFromDb != null) return false;
+    public void addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(userRoleRepository.fi);
         userRepository.save(user);
-        System.out.println("Пользователь сохранен - " + user.getId() + ":" + user.getUsername());
-        return true;
     }
 
     public List<User> findAllUsers(){ return userRepository.findAll();}
@@ -51,8 +46,9 @@ public class UserService {
 
 
     @Transactional
-    public void saveUser(User selectedUser, String role){
-        User user = userRepository.findById(selectedUser.getId()).get();
+    public void saveUser(User selectedUser){
+//        User user = userRepository.findById(selectedUser.getId()).get();
+        User user = findById(selectedUser.getId());
 
         if (!user.getUsername().equals(selectedUser.getUsername())) user.setUsername(selectedUser.getUsername());
         if (!passwordEncoder.matches(selectedUser.getPassword(), user.getPassword())
@@ -65,8 +61,12 @@ public class UserService {
 
         if (user.isActive() != selectedUser.isActive()) user.setActive(selectedUser.isActive());
 
-        user.setRole(roleRepository.findByRole(role));
+        user.setRole(roleRepository.findByRole(user_role));
 
         userRepository.save(user);
+    }
+
+    public User findById(Long obj) {
+        return userRepository.findById(obj).get();
     }
 }

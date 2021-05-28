@@ -1,3 +1,3 @@
 define(function() {
-    return new webix.DataCollection({ url: '/api/user/list' })
+    return new webix.DataCollection({ url: '/api/user/get-users' })
 })

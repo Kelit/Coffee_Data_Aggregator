@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import com.coffee.coffee_data_aggregator.model.Order;
 import com.coffee.coffee_data_aggregator.model.Product;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,3 +23,4 @@ public class OrderProductPK implements Serializable {
     @JoinColumn(name = "product_id")
     private Product product;
 }
+*/

@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -35,3 +35,4 @@ public class OrderProduct {
         return getProduct().getProductPrice() * getQuantity();
     }
 }
+*/
