@@ -56,11 +56,6 @@ public class UserController {
         return "user save";
     }
 
-//    @PutMapping("{id}")
-//    public T update(@PathVariable("id") T dbObj, @RequestBody T obj) {
-//        BeanUtils.copyProperties(obj, dbObj, "id");
-//        return repo.save(dbObj);
-//    }
     @PutMapping("{id}")
     public @ResponseBody String update(@PathVariable("id") Long dbObj, @RequestBody ResponseUser user) {
         User usr = userService.findById(dbObj);
@@ -74,7 +69,7 @@ public class UserController {
                 user.getActive()
         )).findFirst().get();
         BeanUtils.copyProperties(obj, usr, "id");
-        userService.saveUser(usr);
+        userService.addUser(usr);
         return "user update";
     }
 

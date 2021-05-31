@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +32,7 @@ public class User implements UserDetails {
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserRole> role;
+    private Set<Role> role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Order> order;
@@ -54,7 +53,7 @@ public class User implements UserDetails {
 
     public  boolean isActive(){ return active;}
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {return (Collection<? extends GrantedAuthority>) getRole(); }
+    public Collection<? extends GrantedAuthority> getAuthorities() {return getRole(); }
     @Override
     public String getUsername() { return getUsername(); }
     @Override

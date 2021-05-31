@@ -1,4 +1,4 @@
-define(['static/js/collections/roles.js'], function(roles) {
+define( function() {
     return {
         rows:[
             {cols:[
@@ -25,9 +25,6 @@ define(['static/js/collections/roles.js'], function(roles) {
                             { view: "label", label: "Пароль"},
                             { view:"text", id:"password", value:"Пароль"},
 
-                            { view: "label", label: "Роль"},
-                            { view:"combo", name:"category", options: roles},
-
                             // { view: "label", label: "Роль"},
                             // { view:"text", id:'role', value:'ROLE_CUSTOMER'},
 
@@ -53,8 +50,7 @@ define(['static/js/collections/roles.js'], function(roles) {
                         'email':$$('email').getValue(),
                         'password':$$('password').getValue(),
                         'phone':$$('phone').getValue(),
-                        'active':$$('active').getValue(),
-                        // 'role':$$('role').getValue()
+                        'active':$$('active').getValue()
                     };
                     $$('tableID').add(data);
                 }
@@ -74,10 +70,6 @@ define(['static/js/collections/roles.js'], function(roles) {
                                 value:'true',
                                 options:['true','false']
                             },
-                    // {id:'role', template:'ROLE_CUSTOMER'},
-                    { id:'role', editor:"select",
-                                 value:'CUSTOMER',
-                                 options: roles},
                     { id:"trash", header:"", template:"{common.trashIcon()}"}
                 ],
                 url:'resource->/api/user',
