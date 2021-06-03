@@ -1,5 +1,6 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
@@ -15,10 +16,9 @@ import java.util.Set;
 @Data
 @Table(name = "user_table")
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails, ComboListItem {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String phone;
     private Boolean active;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Role> role;
 
@@ -71,5 +70,15 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive();
+    }
+
+    @Override
+    public byte[] getFile() {
+        return new byte[0];
+    }
+
+    @Override
+    public String getType() {
+        return null;
     }
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,14 +22,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "dd/MM/yy")
-    private LocalDate dateCreated;
-    private String status;
-
     @ManyToOne
     private User user;
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "pk.order")
-//    @Valid
-//    private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    private Date dateCreated;
+
+    private String status;
+
+    private Integer orderNum;
+
 }

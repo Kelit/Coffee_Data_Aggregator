@@ -14,13 +14,13 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        scope = ProductCategory.class,
-        resolver = EntityIdResolver.class,
-        property = "id"
-)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        scope = ProductCategory.class,
+//        resolver = EntityIdResolver.class,
+//        property = "id"
+//)
+//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ProductCategory{
         @Id
         @GeneratedValue(strategy = GenerationType.TABLE)//!!
