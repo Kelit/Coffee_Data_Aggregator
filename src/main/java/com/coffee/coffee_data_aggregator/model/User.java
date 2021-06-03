@@ -72,13 +72,4 @@ public class User implements UserDetails, ComboListItem {
         return isActive();
     }
 
-    @Override
-    public byte[] getFile() {
-        return new byte[0];
-    }
-
-    @Override
-    public String getType() {
-        return null;
-    }
 }

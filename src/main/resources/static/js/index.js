@@ -29,7 +29,8 @@ var menu_button  = [
         buildButton('Home', ''),
         buildButton('Пользователи', 'users'),
         buildButton('Роли', 'role'),
-        // buildButton('Категории', 'category'),
+        buildButton('Товары', 'product'),
+        buildButton('Категории', 'category'),
         {id: "demo", icon: "mdi mdi-book", value:"Documentation"}
 ];
 
@@ -52,11 +53,11 @@ require(
         'static/js/views/main.js',
         'static/js/views/user/userList.js',
         'static/js/views/role/roleList.js',
-        // 'static/js/views/product/productList.js',
+        'static/js/views/product/productList.js',
         // 'static/js/views/category/categoryList.js',
         'util/resourceProxy',
     ],
-    function(main,users,role, categories,resourceProxy) {
+    function(main,users,role, product,resourceProxy) {
         webix.ready(function(){
             webix.ui({
                 type:"wide",
@@ -69,7 +70,6 @@ require(
             '': buildRoute(main),
             'users': buildRoute(users),
             'role': buildRoute(role),
-            // 'category': buildRoute(categories),
-            // 'marks': buildRoute(marks)
+            'product': buildRoute(product),
         })
 })

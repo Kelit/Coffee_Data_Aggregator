@@ -8,11 +8,6 @@ public interface ComboListItem {
 
     void setName(String name);
 
-    //for pictures
-    byte[] getFile();
-
-    String getType();
-
     default String getRepr() {
         return getName();
     }

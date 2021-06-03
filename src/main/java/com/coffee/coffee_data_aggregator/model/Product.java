@@ -1,5 +1,6 @@
 package com.coffee.coffee_data_aggregator.model;
 
+import com.coffee.coffee_data_aggregator.util.ComboListItem;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "product_table")
-public class Product {
+public class Product implements ComboListItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,5 +35,4 @@ public class Product {
 
     @CreationTimestamp
     private Date createTime;
-
 }

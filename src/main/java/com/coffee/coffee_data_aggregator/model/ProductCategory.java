@@ -14,14 +14,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        scope = ProductCategory.class,
-//        resolver = EntityIdResolver.class,
-//        property = "id"
-//)
-//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ProductCategory{
+public class ProductCategory implements ComboListItem {
         @Id
         @GeneratedValue(strategy = GenerationType.TABLE)//!!
         private Long id;
