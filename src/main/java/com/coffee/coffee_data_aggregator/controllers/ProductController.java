@@ -1,22 +1,38 @@
 package com.coffee.coffee_data_aggregator.controllers;
+/*
+import com.coffee.coffee_data_aggregator.message.ResponseProduct;
+import com.coffee.coffee_data_aggregator.model.Product;
+import com.coffee.coffee_data_aggregator.repository.ProductRepository;
+import com.coffee.coffee_data_aggregator.service.ProductStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import com.coffee.coffee_data_aggregator.model.ProductInfo;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
-@Controller
-@RequestMapping("/product")
-public class ProductController {
+@RestController
+@RequestMapping("/api/product")
+public class ProductController extends AbstractRestController<Product, ProductRepository> {
+    public ProductController(ProductRepository repo) { super(repo); }
 
-    @GetMapping("{productId}")
-//    public ProductInfo showOne(@PathVariable("productId") String productId) { return productService.findOne(productId); }
-    public String showOne(@PathVariable ProductInfo productId, Model model) {
-        model.addAttribute("product_info", productId);
-        return "productEdit";
+    @Autowired
+    private ProductStorageService productStorageService;
+
+    @GetMapping("/list_product")
+    public @ResponseBody List<ResponseProduct> listProduct() {
+        List<ResponseProduct> products = productStorageService.getAllFiles().map(
+                dbProduct -> new ResponseProduct(
+                        String.valueOf(dbProduct.getId()),
+                        dbProduct.getName(),
+                        dbProduct.getCategory().getName(),
+                        String.valueOf(dbProduct.getProductPrice()),
+                        dbProduct.getProductDescription(),
+                        String.valueOf(dbProduct.getCreateTime()),
+                        dbProduct.getProductIcon().getPicByte())
+                ).collect(Collectors.toList());
+
+        return products;
     }
+
 }
+*/
