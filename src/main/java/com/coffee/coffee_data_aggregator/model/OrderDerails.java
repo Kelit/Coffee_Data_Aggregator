@@ -1,5 +1,5 @@
 package com.coffee.coffee_data_aggregator.model;
-
+/*
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,3 +30,4 @@ public class OrderDerails {
     @Column(name = "Amount", nullable = false)
     private double amount;
 }
+*/
