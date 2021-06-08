@@ -9,67 +9,48 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "user_table")
-@NoArgsConstructor
-public class User implements UserDetails, ComboListItem {
+@Table(name = "users")
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-    private String lastname;
-    private String username;
+    @Column(name = "first_name", length = 55, nullable = false, unique = false)
+    private String firstName;
+    @Column(name = "last_name", length = 55, nullable = false, unique = false)
+    private String lastName;
+    @Column(name = "user_name", length = 55, nullable = false, unique = false)
+    private String userName;
+    @Column(length = 128, nullable = false, unique = true)
     private String email;
+    @Column(length = 64, nullable = false)
     private String password;
+    @Column(length = 12, nullable = false)
     private String phone;
+
     private Boolean active;
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Role> role;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Order> order;
-
-    public User(String name, String lastname,
-                String username, String email,
-                String password, String phone,
-                String active){
-        this.name = name;
-        this.lastname = lastname;
-        this.username = username;
+    public User(String email, String password, String firstName, String lastName, String phone, String username){
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phone = phone;
-        this.active = Boolean.valueOf(active);
+        this.userName = username;
     }
-
-
-    public  boolean isActive(){ return active;}
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {return getRole(); }
-    @Override
-    public String getUsername() { return getUsername(); }
-    @Override
-    public boolean isAccountNonExpired() {
-        return isActive();
-    }
-    @Override
-    public boolean isAccountNonLocked() {
-        return isActive();
-    }
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isActive();
-    }
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
-
+    public User() {}
 }
