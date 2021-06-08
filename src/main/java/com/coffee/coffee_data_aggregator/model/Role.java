@@ -6,18 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 @Data
 @Entity
-public class Role implements GrantedAuthority {
+@Table(name = "roles")
+public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    @Column(length = 25, nullable = false, unique = true)
+    private String name;
 
-    private String role_name;
+    @Column(length = 150, nullable = false)
+    private String description;
 
-    @Override
-    public String getAuthority() {
-        return getRole_name();
-    }
+
 }
