@@ -18,5 +18,8 @@ public class Role {
     @Column(length = 150, nullable = false)
     private String description;
 
-
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }
