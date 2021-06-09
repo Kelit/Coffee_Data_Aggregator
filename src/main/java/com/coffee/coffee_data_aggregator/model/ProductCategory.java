@@ -1,22 +1,47 @@
 package com.coffee.coffee_data_aggregator.model;
 
-import com.coffee.coffee_data_aggregator.util.ComboListItem;
-import com.coffee.coffee_data_aggregator.util.EntityIdResolver;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
-public class ProductCategory implements ComboListItem {
+@Table(name = "categories")
+public class ProductCategory{
         @Id
-        @GeneratedValue(strategy = GenerationType.TABLE)//!!
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+
+        @Column(length = 100, nullable = false, unique = true)
         private String name;
+        @Column(length = 100, nullable = false, unique = true)
+        private String alias;
+        @Lob
+        private String image;
+
+        private boolean active;
+
+        @OneToOne
+        @JoinColumn(name = "parent_id")
+        private ProductCategory parent;
+
+        @OneToMany(mappedBy = "parent")
+        private Set<ProductCategory> children = new HashSet<>();
+
+        public ProductCategory(){}
+
+        public ProductCategory(Long id){
+                this.id = id;
+        }
+
+        public ProductCategory(String name){
+                this.name = name;
+                this.alias = name;
+        }
+        public ProductCategory(String name, ProductCategory parent){
+                this(name);
+                this.parent = parent;
+        }
 }
