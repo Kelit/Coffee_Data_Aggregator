@@ -21,6 +21,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User getByEmail(String email){
+        return userRepository.getUsersByEmail(email);
+    }
+
     public User getUser(Long id){ return userRepository.findById(id.longValue()).get();}
     public List<User> listAll(){
         return userRepository.findAll();
@@ -45,6 +49,24 @@ public class UserService {
         // TODO User check
         userRepository.delete(userRepository.findById(id).get());
     }
+
+    public User updateUser(User user){
+        User usrInDB = userRepository.findById(user.getId()).get();
+        if(!user.getPassword().isEmpty()){
+            usrInDB.setPassword(usrInDB.getPassword());
+            passwordEncoder.encode(usrInDB.getPassword());
+        }
+//        if(user.getImage() != null){
+//            user.setImage(user.getImage())
+//        }
+        usrInDB.setFirstName(user.getFirstName());
+        usrInDB.setLastName(user.getLastName());
+        usrInDB.setPhone(user.getPhone());
+
+        return userRepository.save(usrInDB);
+    }
+
+
 
     public void updateUserActive(Long id, boolean active){
         userRepository.updateActive(id, active);
