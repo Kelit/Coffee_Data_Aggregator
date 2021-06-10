@@ -14,25 +14,4 @@ import java.util.List;
 @Controller
 public class ProductController{
 
-    @Autowired
-    private ProductCategoryService productCategoryService;
-
-    @GetMapping("/categories")
-    public String listAll(Model model){
-        List<ProductCategory> listCategory = productCategoryService.listAll();
-        model.addAttribute("listCategories", listCategory);
-
-        return "categories/categories";
-    }
-
-    @GetMapping("/categories/new")
-    public String newCategory(Model model){
-        List<ProductCategory> listCategoryForForm = productCategoryService.listCategoryForForm();
-
-        model.addAttribute("category", new ProductCategory());
-        model.addAttribute("listCategories", listCategoryForForm);
-//        model.addAttribute("listCategories", listCategory);
-
-        return "categories/category_form";
-    }
 }

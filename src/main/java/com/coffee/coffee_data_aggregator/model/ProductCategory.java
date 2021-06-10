@@ -20,8 +20,8 @@ public class ProductCategory{
         private String alias;
         @Lob
         private String image;
-
         private boolean active;
+
 
         @OneToOne
         @JoinColumn(name = "parent_id")
@@ -30,7 +30,48 @@ public class ProductCategory{
         @OneToMany(mappedBy = "parent")
         private Set<ProductCategory> children = new HashSet<>();
 
+
+        @Transient
+        private boolean hasChildren;
+
+        public boolean isHasChildren(){
+                return hasChildren;
+        }
+
         public ProductCategory(){}
+
+        public static ProductCategory copyFull(ProductCategory category){
+                ProductCategory productCategory = new ProductCategory();
+                productCategory.setId(category.getId());
+                productCategory.setName(category.getName());
+                productCategory.setAlias(category.getAlias());
+                productCategory.setImage(category.getImage());
+                productCategory.setActive(category.isActive());
+                productCategory.setHasChildren(category.getChildren().size() > 0);
+
+                return productCategory;
+        }
+
+        public static ProductCategory copyFull(ProductCategory category, String name){
+                ProductCategory copyCategory = ProductCategory.copyFull(category);
+                copyCategory.setName(name);
+                return copyCategory;
+        }
+
+        public static ProductCategory copyIdAndName(ProductCategory category){
+                ProductCategory productCategory = new ProductCategory();
+                productCategory.setId(category.getId());
+                productCategory.setName(category.getName());
+
+                return productCategory;
+        }
+        public static ProductCategory copyIdAndName(Long id, String name){
+                ProductCategory productCategory = new ProductCategory();
+                productCategory.setId(id);
+                productCategory.setName(name);
+
+                return productCategory;
+        }
 
         public ProductCategory(Long id){
                 this.id = id;
