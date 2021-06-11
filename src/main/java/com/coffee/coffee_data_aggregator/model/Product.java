@@ -10,29 +10,39 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "product_table")
+@Table(name = "products")
 public class Product implements ComboListItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, length = 256, nullable = false)
     private String name;
+    @Column(unique = true, length = 256, nullable = false)
+    private String alias;
+    @Column(length = 512, nullable = false, name = "short_description")
+    private String shortDescription;
+    @Column(length = 4096, nullable = false, name = "full_description")
+    private String fullDescription;
 
-    private Boolean newProduct;
-    private Boolean hotProduct;
+    @Column(name = "created_time")
+    private Date createdTime;
+    @Column(name = "updated_time")
+    private Date updatedTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_type_id")
+    private boolean active;
+    @Column(name = "stock")
+    private boolean inStock;
+
+    private Double cost;
+    private Double price;
+
+    @Column(name = "discount_percent")
+    private Double discountPercent;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private ProductCategory category;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
-    private double productPrice;
-    private double oldProductPrice;
-
-    @Type(type="text")
-    private String productDescription;
-
-    @Lob
-    private String icon;
-
-    @CreationTimestamp
-    private Date createTime;
 }
