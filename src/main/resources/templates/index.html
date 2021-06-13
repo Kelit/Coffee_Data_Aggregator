@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-type" content="text/html"; charset="UTF-8">
+    <title>Coffee manager</title>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}">
+    <script type="text/javascript"
+            th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.js}"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light">
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/static/images/coffee_logo.png}" width="50px" height="50px">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="topNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users}">Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/categories}">Категории товаров</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/brands}">Бренды товаров</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/products}">Продукты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/menu}">Меню</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/settings}">Настройки</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div><h1>Coffee manager Панель управления</h1></div>
+        <div><h1>Coffee manager - Copyring &copy;</h1></div>
+    </div>
+</body>
+</html>
