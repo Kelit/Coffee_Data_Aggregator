@@ -42,7 +42,10 @@
       </ul>
     </div>
   </nav>
-  <div><h1>Пользователи:</h1></div>
+  <div>
+    <h1>Пользователи:</h1>
+    <a th:href="@{/users/new}">Создать нового пользователя</a>
+  </div>
   <div>
     <table class="table table-bordered table-striped table-hover table-responsive-xl">
       <thead class="">
@@ -74,7 +77,6 @@
       </tbody>
     </table>
   </div>
-
   <div><h1>Coffee manager - Copyring &copy;</h1></div>
 </div>
 </body>
