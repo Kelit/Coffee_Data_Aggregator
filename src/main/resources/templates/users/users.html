@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-type" content="text/html"; charset="UTF-8">
   <title>Coffee manager</title>
-  <link rel="stylesheet" type="text/css"
-        th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/fonts/webfonts/all.css}">
   <script type="text/javascript"
           th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
   <script type="text/javascript"
@@ -64,6 +64,7 @@
       <tbody>
         <tr th:each="user : ${listUsers}">
             <td>[[${user.id}]]</td>
+            <td><span class="fa-portrait fa-2x"></span></td>
 <!--            <td>[[${user.photo}]]</td>-->
             <td>[[${user.username}]]</td>
             <td>[[${user.email}]]</td>
@@ -71,8 +72,17 @@
             <td>[[${user.lastname}]]</td>
             <td>[[${user.phone}]]</td>
             <td>[[${user.roles}]]</td>
-            <td>[[${user.active}]]</td>
-            <td>Редактировать &nbsp; Удалить</td>
+
+            <td>
+              <a th:if="${user.active == true}" class="fas fa-check-circle fa-2x"></a>
+              <a th:if="${user.active == false}" class="fas fa-check-square fa-2x"></a>
+            </td>
+            <td>
+              <a class="fas fa-edit fa-2x" th:href="@{'/users/edit/' + ${user.id}}"
+                  title="Редактировать пользователя"></a>
+              &nbsp;
+              <a class="fas fa-trash fa-2x" th:href=""></a>
+            </td>
         </tr>
       </tbody>
     </table>
