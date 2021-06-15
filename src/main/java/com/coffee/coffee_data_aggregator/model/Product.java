@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -38,6 +40,14 @@ public class Product implements ComboListItem {
 
     @Column(name = "discount_percent")
     private Double discountPercent;
+
+    @Lob
+    @Column(name = "main_icon", nullable = false)
+    private String mainIcon;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ProductCategory category;
@@ -45,4 +55,7 @@ public class Product implements ComboListItem {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    public void addExtraImage(String imageName){
+        this.images.add(new ProductImage(imageName, this));
+    }
 }

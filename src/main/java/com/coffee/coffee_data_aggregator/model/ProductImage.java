@@ -13,4 +13,10 @@ public class ProductImage {
     private Long id;
     @Lob
     private String name;
+    @ManyToOne
+    @JoinColumn(name ="product_id")
+    private Product product;
+
+    public ProductImage(){}
+    public ProductImage(String name, Product product){ this.name = name; this.product = product; }
 }
