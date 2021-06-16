@@ -2,15 +2,14 @@ package com.coffee.coffee_data_aggregator.controllers;
 
 import com.coffee.coffee_data_aggregator.model.Brand;
 import com.coffee.coffee_data_aggregator.model.Product;
-import com.coffee.coffee_data_aggregator.model.ProductCategory;
-import com.coffee.coffee_data_aggregator.repository.ProductRepository;
 import com.coffee.coffee_data_aggregator.service.BrandService;
-import com.coffee.coffee_data_aggregator.service.ProductCategoryService;
 import com.coffee.coffee_data_aggregator.service.ProductService;
+import org.h2.engine.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -49,11 +48,49 @@ public class ProductController{
     @PostMapping("/products/save")
     public String saveProduct(
             Product product,
-            RedirectAttributes re
+            RedirectAttributes re,
+            @RequestParam("fileImage")MultipartFile mainImageFile,
+            @RequestParam("fileImage")MultipartFile[] multiImageMultipart,
+            @RequestParam(name = "detailNames", required = false) String[] detailNames,
+            @RequestParam(name = "detailValues", required = false) String[] detailValues
+
             ){
+        setMainIcon(mainImageFile, product);
+        setExtImage(multiImageMultipart, product);
+
+        setProductDetail(detailNames, detailValues, product);
+
         productService.saveProduct(product);
         re.addFlashAttribute("message", "Продукт успешно сохранен");
         return "redirect:products";
+    }
+
+    private void setProductDetail(String[] detailNames, String[] detailValues, Product product) {
+        if(detailNames == null || detailNames.length == 0) return;
+        for( int c = 0; c < detailNames.length; c++){
+            String name = detailNames[c];
+            String value = detailValues[c];
+
+            if(!name.isEmpty() && !value.isEmpty()){
+                 product.addDetail(name, value);
+            }
+        }
+    }
+
+    private void setExtImage(MultipartFile[] multiImageMultipart,Product product){
+        if(multiImageMultipart.length > 0){
+            for(MultipartFile multipartFile : multiImageMultipart){
+                product.addExtraImage(multipartFile.getContentType()); // TODO Content
+            }
+        }
+    }
+
+    private void setMainIcon(MultipartFile mainImageFile, Product product){
+        if(!mainImageFile.isEmpty()){
+            product.setMainIcon(mainImageFile.getContentType());
+        }else{
+            product.setMainIcon("");// TODO!! set BASE64
+        }
     }
 
     @GetMapping("/products/{id}/enabled/{status}")
@@ -87,4 +124,22 @@ public class ProductController{
         return "redirect:/products";
     }
 
+
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(
+            @PathVariable("id") Long id,
+            Model model,
+            RedirectAttributes re
+    ){
+        try{
+            Product product = productService.getProduct(id);
+            model.addAttribute("product", product);
+            model.addAttribute("pageTitle", "Edit Product");
+            return "/products/product_form";
+        }catch (Exception ex){
+            re.addFlashAttribute("message",ex.getMessage());
+            return "redirect:/products";
+        }
+
+    }
 }

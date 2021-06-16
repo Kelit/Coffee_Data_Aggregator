@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -55,7 +56,22 @@ public class Product implements ComboListItem {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @OneToMany
+    @JoinColumn(name="product_detail_id")
+    List<ProductDetails> details;
+
     public void addExtraImage(String imageName){
         this.images.add(new ProductImage(imageName, this));
+    }
+
+    public void addDetail(String name, String value){
+        this.details.add(new ProductDetails(name, value, this));
+    }
+
+    @Transient
+    public String getMainImagePath(){
+        if(id == null || mainIcon == null) return  "" ;//TODO !!! Return default base 64
+
+        return this.mainIcon;
     }
 }

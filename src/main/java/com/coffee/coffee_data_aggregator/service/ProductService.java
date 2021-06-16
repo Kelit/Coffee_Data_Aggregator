@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -30,6 +31,16 @@ public class ProductService {
 
         productRepository.save(product);
     }
+
+    public Product getProduct(Long id){
+//        try {
+//            return  productRepository.findById(id).get();
+//        }catch (NoSuchElementException ex){
+//            System.out.println(ex.getMessage()); // TODO Exeption custom
+//        }
+        return  productRepository.findById(id).get();
+    }
+
 
     public String checkUnique(Long id, String name){
         boolean isCreateingNew = (id == null || id == 0);
