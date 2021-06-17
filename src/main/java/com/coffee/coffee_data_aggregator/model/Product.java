@@ -5,10 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -46,9 +43,6 @@ public class Product implements ComboListItem {
     @Column(name = "main_icon", nullable = false)
     private String mainIcon;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductImage> images = new HashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ProductCategory category;
@@ -56,9 +50,11 @@ public class Product implements ComboListItem {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToMany
-    @JoinColumn(name="product_detail_id")
-    List<ProductDetails> details;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ProductDetails> details = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductImage> images = new HashSet<>();
 
     public void addExtraImage(String imageName){
         this.images.add(new ProductImage(imageName, this));
@@ -66,6 +62,9 @@ public class Product implements ComboListItem {
 
     public void addDetail(String name, String value){
         this.details.add(new ProductDetails(name, value, this));
+    }
+    public void addDetail(Long id, String name, String value){
+        this.details.add(new ProductDetails(id, name, value, this));
     }
 
     @Transient

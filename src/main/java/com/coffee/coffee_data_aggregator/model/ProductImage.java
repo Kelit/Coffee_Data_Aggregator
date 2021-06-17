@@ -21,4 +21,5 @@ public class ProductImage {
 
     public ProductImage(){}
     public ProductImage(String name, Product product){ this.name = name; this.product = product; }
+    public ProductImage(Long id, String name, Product product){ this.id = id; this.name = name; this.product = product; }
 }
